@@ -12,7 +12,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        GradesApplication.graph.inject(this)
+        GradesApplication.graph.plus(MainModule()).inject(this);
         Timber.d("Graph injected into MainActivity")
         ui.setContentView(this)
     }

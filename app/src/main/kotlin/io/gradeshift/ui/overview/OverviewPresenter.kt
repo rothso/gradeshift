@@ -1,10 +1,12 @@
-package io.gradeshift.ui.main
+package io.gradeshift.ui.overview
 
+import io.gradeshift.ui.main.Grade
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
 
-class MainPresenter {
+class OverviewPresenter {
+
     private var view: View? = null
 
     fun attachView(view: View) {
@@ -28,4 +30,3 @@ class MainPresenter {
     }
 
 }
-
