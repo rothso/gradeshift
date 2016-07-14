@@ -28,5 +28,4 @@ class OverviewPresenter {
     interface View {
         fun showGrades(grades: List<Grade>)
     }
-
 }

@@ -1,4 +1,4 @@
-package io.gradeshift.ui.main
+package io.gradeshift.ui.overview
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -6,13 +6,14 @@ import io.gradeshift.GradesApplication
 import org.jetbrains.anko.setContentView
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
-    @Inject lateinit var ui: MainUI
+class OverviewActivity : AppCompatActivity() {
+    @Inject lateinit var ui: OverviewUI
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        GradesApplication.graph.plus(MainModule()).inject(this)
+        GradesApplication.graph.plus(OverviewModule()).inject(this)
         ui.setContentView(this)
     }
 }
+

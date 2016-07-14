@@ -2,6 +2,7 @@ package io.gradeshift.ui.main
 
 import android.support.v4.content.ContextCompat
 import io.gradeshift.R
+import io.gradeshift.ui.overview.OverviewActivity
 import org.jetbrains.anko.*
 
 class MainUI : AnkoComponent<MainActivity> {
@@ -13,7 +14,7 @@ class MainUI : AnkoComponent<MainActivity> {
 
             button {
                 textResource = R.string.view_grades
-                onClick { } // TODO start io.gradeshift.ui.overview activity
+                onClick { startActivity<OverviewActivity>() }
             }.lparams { centerInParent() }
         }
     }
