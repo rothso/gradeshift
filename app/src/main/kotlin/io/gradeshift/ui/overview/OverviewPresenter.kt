@@ -1,10 +1,11 @@
 package io.gradeshift.ui.overview
 
+import com.artemzin.rxui.kotlin.bind
 import io.gradeshift.model.Class
 import io.gradeshift.ui.ext.plusAssign
 import rx.Observable
 import rx.Subscription
-import rx.android.schedulers.AndroidSchedulers
+import rx.functions.Func1
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
 import timber.log.Timber
@@ -15,7 +16,7 @@ class OverviewPresenter {
     fun bind(view: View): Subscription {
         val subscription = CompositeSubscription()
 
-        subscription += fetchClasses().subscribe { view.showClasses(it) }
+        subscription += fetchClasses().bind(view.showClasses)
         subscription += view.itemClicks.subscribe { position -> Timber.d(position.toString()) }
 
         return subscription
@@ -25,10 +26,10 @@ class OverviewPresenter {
         Observable.defer { Observable.just(Class.DUMMY_CLASSES) }
                 .delay(5, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
 
     interface View {
         val itemClicks: Observable<Int>
-        fun showClasses(classes: List<Class>)
+        // Replace Func1<..> with a type alias when those puppies come out
+        val showClasses: Func1<Observable<List<Class>>, Subscription>
     }
 }

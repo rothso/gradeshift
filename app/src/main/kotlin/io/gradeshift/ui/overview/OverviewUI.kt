@@ -6,6 +6,7 @@ import android.text.TextUtils
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
+import com.artemzin.rxui.RxUi.ui
 import com.jakewharton.rxrelay.PublishRelay
 import io.gradeshift.R
 import io.gradeshift.model.Class
@@ -19,7 +20,11 @@ class OverviewUI @Inject constructor(val adapterProvider: Provider<OverviewAdapt
         AnkoComponent<OverviewActivity>, OverviewPresenter.View, ItemPressListener {
 
     lateinit var overviewAdapter: OverviewAdapter
-    override val itemClicks: PublishRelay<Int> = PublishRelay.create()
+
+    override val itemClicks : PublishRelay<Int> = PublishRelay.create()
+    override val showClasses = ui<List<Class>> { overviewAdapter.setClasses(it) }
+
+    override fun onItemPress(position: Int) = itemClicks.call(position)
 
     override fun createView(ui: AnkoContext<OverviewActivity>) = with(ui) {
         overviewAdapter = adapterProvider.get()
@@ -36,14 +41,6 @@ class OverviewUI @Inject constructor(val adapterProvider: Provider<OverviewAdapt
             }
             // TODO error view
         }
-    }
-
-    override fun onItemPress(position: Int) {
-        itemClicks.call(position)
-    }
-
-    override fun showClasses(classes: List<Class>) {
-        overviewAdapter.setClasses(classes)
     }
 
     class Item : AnkoComponent<ViewGroup> {
