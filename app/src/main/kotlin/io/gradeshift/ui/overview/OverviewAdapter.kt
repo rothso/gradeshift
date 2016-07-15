@@ -6,15 +6,19 @@ import android.view.ViewGroup
 import android.widget.TextView
 import io.gradeshift.R
 import io.gradeshift.model.Class
+import io.gradeshift.ui.ext.ItemPressListener
+import io.gradeshift.ui.ext.withItemPressListener
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
+import javax.inject.Inject
 
-class OverviewAdapter : RecyclerView.Adapter<OverviewAdapter.ViewHolder>() {
+class OverviewAdapter @Inject constructor(val listener: ItemPressListener) : RecyclerView.Adapter<OverviewAdapter.ViewHolder>() {
 
     var classesList: List<Class> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(OverviewUI.Item().createView(AnkoContext.create(parent.context, parent)))
+                .withItemPressListener(listener)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -33,8 +37,8 @@ class OverviewAdapter : RecyclerView.Adapter<OverviewAdapter.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val name = itemView.find<TextView>(R.id.grades_overview_item_name)
-        val score = itemView.find<TextView>(R.id.grades_overview_item_score)
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val name = view.find<TextView>(R.id.grades_overview_item_name)
+        val score = view.find<TextView>(R.id.grades_overview_item_score)
     }
 }

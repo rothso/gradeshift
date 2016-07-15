@@ -1,35 +1,34 @@
 package io.gradeshift.ui.overview
 
 import io.gradeshift.model.Class
+import io.gradeshift.ui.ext.plusAssign
 import rx.Observable
+import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers
+import rx.subscriptions.CompositeSubscription
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class OverviewPresenter {
 
-    private var view: View? = null
+    fun bind(view: View): Subscription {
+        val subscription = CompositeSubscription()
 
-    fun attachView(view: View) {
-        this.view = view
-        fetchGrades()
+        subscription += fetchClasses().subscribe { view.showClasses(it) }
+        subscription += view.itemClicks.subscribe { position -> Timber.d(position.toString()) }
+
+        return subscription
     }
 
-    fun fetchGrades() {
-        // TODO show loading
-        val grades = listOf(
-                Class("Chemistry", "Dr. HCL", 100),
-                Class("History", "Henry VIII", 80),
-                Class("Calculus", "Ms. Lady", 86)
-        )
-        Observable.defer { Observable.just(grades) }
+    private fun fetchClasses() : Observable<List<Class>> =
+        Observable.defer { Observable.just(Class.DUMMY_CLASSES) }
                 .delay(5, TimeUnit.SECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe { view?.showClasses(it) }
-    }
 
     interface View {
+        val itemClicks: Observable<Int>
         fun showClasses(classes: List<Class>)
     }
 }

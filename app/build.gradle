@@ -48,6 +48,8 @@ dependencies {
     // Rx
     compile 'io.reactivex:rxjava:1.1.7'
     compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.jakewharton.rxrelay:rxrelay:1.1.0'
+    compile 'com.artemzin.rxui:rxui:1.0.1'
 
     // Anko
     compile 'org.jetbrains.anko:anko-sdk19:0.9'
