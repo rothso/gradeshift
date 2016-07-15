@@ -2,8 +2,8 @@ package io.gradeshift.ui.overview
 
 import dagger.Module
 import dagger.Provides
+import io.gradeshift.model.Class
 import io.gradeshift.ui.ActivityScope
-import io.gradeshift.model.Grade
 
 @Module
 class OverviewModule {
@@ -12,9 +12,9 @@ class OverviewModule {
     fun provideOverviewUI(): OverviewUI {
         // TODO: Presenter provides data during runtime
         val grades = listOf(
-                Grade("Homework 1", 100),
-                Grade("Homework 2", 80),
-                Grade("Test", 86)
+                Class("Chemistry", "Dr. HCL", 100),
+                Class("History", "Henry VIII", 80),
+                Class("Calculus", "Ms. Lady", 86)
         )
         val adapter = OverviewAdapter(grades)
         return OverviewUI(adapter)

@@ -1,7 +1,7 @@
 package io.gradeshift.navigator
 
-import io.gradeshift.model.Grade
+import io.gradeshift.model.Class
 
 interface GradesNavigator {
-    fun showGrades(grades: List<Grade>)
+    fun showClasses(classes: List<Class>)
 }

@@ -55,6 +55,4 @@ dependencies {
     compile 'org.jetbrains.anko:anko-appcompat-v7:0.9'
     compile 'org.jetbrains.anko:anko-recyclerview-v7:0.9'
     compile 'org.jetbrains.anko:anko-design:0.9'
-
-    // TODO use kapt with Dagger 2: https://kotlinlang.org/docs/reference/using-gradle.html
 }
