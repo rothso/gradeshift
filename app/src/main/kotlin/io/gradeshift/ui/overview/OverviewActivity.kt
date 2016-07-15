@@ -8,12 +8,13 @@ import javax.inject.Inject
 
 class OverviewActivity : AppCompatActivity() {
     @Inject lateinit var ui: OverviewUI
+    @Inject lateinit var presenter: OverviewPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         GradesApplication.graph.plus(OverviewModule()).inject(this)
         ui.setContentView(this)
+        presenter.attachView(ui)
     }
 }
-

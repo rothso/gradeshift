@@ -9,7 +9,9 @@ import io.gradeshift.model.Class
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 
-class OverviewAdapter(val classesList: List<Class>) : RecyclerView.Adapter<OverviewAdapter.ViewHolder>() {
+class OverviewAdapter : RecyclerView.Adapter<OverviewAdapter.ViewHolder>() {
+
+    var classesList: List<Class> = emptyList()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(OverviewUI.Item().createView(AnkoContext.create(parent.context, parent)))
@@ -23,7 +25,12 @@ class OverviewAdapter(val classesList: List<Class>) : RecyclerView.Adapter<Overv
     }
 
     override fun getItemCount(): Int {
-        return classesList.count()
+        return classesList.size
+    }
+
+    fun setClasses(classesList: List<Class>) {
+        this.classesList = classesList
+        notifyDataSetChanged()
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

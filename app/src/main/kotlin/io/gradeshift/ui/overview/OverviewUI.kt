@@ -7,15 +7,18 @@ import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import io.gradeshift.R
+import io.gradeshift.model.Class
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import javax.inject.Inject
 
-class OverviewUI @Inject constructor(val overviewAdapter: OverviewAdapter): AnkoComponent<OverviewActivity> {
+class OverviewUI @Inject constructor(val overviewAdapter: OverviewAdapter):
+        AnkoComponent<OverviewActivity>, OverviewPresenter.View {
 
     override fun createView(ui: AnkoContext<OverviewActivity>) = with(ui) {
         frameLayout() {
             lparams(width = matchParent, height = matchParent)
+            // TODO wrap RecyclerView, error view in SwipeRefreshLayout
             recyclerView {
                 id = R.id.grades_overview_list
                 lparams(width = matchParent, height = matchParent)
@@ -23,7 +26,12 @@ class OverviewUI @Inject constructor(val overviewAdapter: OverviewAdapter): Anko
                 adapter = overviewAdapter
                 setHasFixedSize(true) // All views are the same height and width
             }
+            // TODO error view
         }
+    }
+
+    override fun showClasses(classes: List<Class>) {
+        overviewAdapter.setClasses(classes)
     }
 
     class Item : AnkoComponent<ViewGroup> {
