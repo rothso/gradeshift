@@ -1,6 +1,6 @@
 package io.gradeshift.ui.overview
 
-import io.gradeshift.ui.main.Grade
+import io.gradeshift.model.Grade
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.schedulers.Schedulers

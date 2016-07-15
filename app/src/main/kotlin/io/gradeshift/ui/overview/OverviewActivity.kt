@@ -13,7 +13,7 @@ class OverviewActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         GradesApplication.graph.plus(OverviewModule()).inject(this)
-        ui.setContentView(this)
+        ui.setContentView(this) // TODO populate with Presenter data
     }
 }
 

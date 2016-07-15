@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <item name="some_id" type="id"/>
+    <item name="grades_overview_list" type="id"/>
+    <item name="grades_overview_item_name" type="id"/>
+    <item name="grades_overview_item_score" type="id"/>
 </resources>
