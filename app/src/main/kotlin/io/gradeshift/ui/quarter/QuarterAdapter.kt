@@ -14,7 +14,11 @@ import javax.inject.Inject
 
 class QuarterAdapter @Inject constructor(val listener: ItemPressListener) : RecyclerView.Adapter<QuarterAdapter.ViewHolder>() {
 
-    var gradesList: List<Grade> = emptyList()
+    var grades: List<Grade> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(QuarterUI.Item().createView(AnkoContext.create(parent.context, parent)))
@@ -22,7 +26,7 @@ class QuarterAdapter @Inject constructor(val listener: ItemPressListener) : Recy
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val grade = gradesList[position]
+        val grade = grades[position]
         val score = with(grade) { pointsEarned.toDouble() / pointsPossible * 100 }.toInt() // TODO calculate elsewhere
 
         holder.name.text = grade.name
@@ -32,12 +36,7 @@ class QuarterAdapter @Inject constructor(val listener: ItemPressListener) : Recy
     }
 
     override fun getItemCount(): Int {
-        return gradesList.size
-    }
-
-    fun setGrades(gradesList: List<Grade>) {
-        this.gradesList = gradesList
-        notifyDataSetChanged()
+        return grades.size
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

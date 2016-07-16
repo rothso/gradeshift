@@ -9,10 +9,11 @@ import javax.inject.Provider
 @Module
 class QuarterModule(val classId: Int) {
 
-    // TODO uniform order
-
     @Provides @ActivityScope
     fun providerAdapter(listener: QuarterUI): QuarterAdapter = QuarterAdapter(listener)
+
+    @Provides @ActivityScope
+    fun provideUI(adapterProvider: Provider<QuarterAdapter>): QuarterUI = QuarterUI(adapterProvider)
 
     @Provides @ActivityScope
     fun provideInteractor(): QuarterGradesInteractor = QuarterGradesInteractor(classId)
@@ -21,7 +22,4 @@ class QuarterModule(val classId: Int) {
     fun providePresenter(interactor: QuarterGradesInteractor): QuarterPresenter {
         return QuarterPresenter(interactor)
     }
-
-    @Provides @ActivityScope
-    fun provideUI(adapterProvider: Provider<QuarterAdapter>): QuarterUI = QuarterUI(adapterProvider)
 }

@@ -20,13 +20,11 @@ class OverviewUI @Inject constructor(
         val adapterProvider: Provider<OverviewAdapter>,
         val navigator: Navigator
 ) : AnkoComponent<OverviewActivity>, OverviewPresenter.View, ItemPressListener {
-
     lateinit var overviewAdapter: OverviewAdapter
 
     override val itemClicks : PublishRelay<Int> = PublishRelay.create()
-    override val showClasses = ui<List<Class>> { overviewAdapter.setClasses(it) }
+    override val showClasses = ui<List<Class>> { overviewAdapter.classes = it }
     override val showClassDetail = ui<Class> { navigator.showClass(it.id) }
-
     override fun onItemPress(position: Int) = itemClicks.call(position)
 
     override fun createView(ui: AnkoContext<OverviewActivity>) = with(ui) {
@@ -49,7 +47,6 @@ class OverviewUI @Inject constructor(
     class Item : AnkoComponent<ViewGroup> {
 
         override fun createView(ui: AnkoContext<ViewGroup>) = with(ui) {
-            // TODO Maybe find a way to set an onClickListener here instead of in the Adapter
             linearLayout {
                 lparams(width = matchParent, height = dip(48))
                 orientation = LinearLayout.HORIZONTAL

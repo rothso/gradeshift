@@ -2,28 +2,20 @@ package io.gradeshift.ui.overview
 
 //import io.gradeshift.ui.ext.plusAssign
 import com.artemzin.rxui.kotlin.bind
+import io.gradeshift.domain.OverviewInteractor
 import io.gradeshift.model.Class
+import io.gradeshift.ui.base.Presenter
 import rx.Observable
 import rx.Subscription
 import rx.functions.Func1
 import rx.lang.kotlin.plusAssign
-import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
-import timber.log.Timber
-import java.util.concurrent.TimeUnit
 
-class OverviewPresenter {
+class OverviewPresenter(val interactor: OverviewInteractor) : Presenter<OverviewPresenter.View>() {
 
-    init {
-        // TODO survive orientation changes, or simply be passive?
-        Timber.i("Creating presenter")
-    }
-
-    fun bind(view: View): Subscription {
-        Timber.i("Binding view")
+    override fun bind(view: View): Subscription {
         val subscription = CompositeSubscription()
-
-        val classes = fetchClasses().share()
+        val classes = interactor.getClasses().share()
 
         subscription += classes.bind(view.showClasses)
         subscription += Observable
@@ -33,12 +25,6 @@ class OverviewPresenter {
 
         return subscription
     }
-
-    // TODO move to interactor
-    private fun fetchClasses(): Observable<List<Class>> =
-            Observable.defer { Observable.just(Class.DUMMY_CLASSES) }
-                    .delay(5, TimeUnit.SECONDS)
-                    .subscribeOn(Schedulers.io())
 
     interface View {
         val itemClicks: Observable<Int>

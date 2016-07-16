@@ -14,7 +14,11 @@ import javax.inject.Inject
 
 class OverviewAdapter @Inject constructor(val listener: ItemPressListener) : RecyclerView.Adapter<OverviewAdapter.ViewHolder>() {
 
-    var classesList: List<Class> = emptyList()
+    var classes: List<Class> = emptyList()
+        set(value) {
+            field = value
+            notifyDataSetChanged()
+        }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ViewHolder(OverviewUI.Item().createView(AnkoContext.create(parent.context, parent)))
@@ -22,19 +26,14 @@ class OverviewAdapter @Inject constructor(val listener: ItemPressListener) : Rec
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val grade = classesList[position]
+        val grade = classes[position]
 
         holder.name.text = grade.name
         holder.score.text = grade.grade.toString() + "%"
     }
 
     override fun getItemCount(): Int {
-        return classesList.size
-    }
-
-    fun setClasses(classesList: List<Class>) {
-        this.classesList = classesList
-        notifyDataSetChanged()
+        return classes.size
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

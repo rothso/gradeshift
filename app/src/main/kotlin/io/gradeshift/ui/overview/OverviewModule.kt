@@ -2,6 +2,7 @@ package io.gradeshift.ui.overview
 
 import dagger.Module
 import dagger.Provides
+import io.gradeshift.domain.OverviewInteractor
 import io.gradeshift.ui.ActivityScope
 import javax.inject.Provider
 
@@ -12,12 +13,15 @@ class OverviewModule(val context: OverviewActivity) {
     fun provideNavigator(): Navigator = Navigator(context)
 
     @Provides @ActivityScope
-    fun providePresenter(): OverviewPresenter = OverviewPresenter()
-
-    @Provides @ActivityScope
     fun provideAdapter(listener: OverviewUI): OverviewAdapter = OverviewAdapter(listener)
 
     @Provides @ActivityScope
-    fun provideUI(adapter: Provider<OverviewAdapter>, navigator: Navigator): OverviewUI = OverviewUI(adapter, navigator)
+    fun provideUI(a: Provider<OverviewAdapter>, n: Navigator): OverviewUI = OverviewUI(a, n)
+
+    @Provides @ActivityScope
+    fun provideInteractor(): OverviewInteractor = OverviewInteractor()
+
+    @Provides @ActivityScope
+    fun providePresenter(i: OverviewInteractor): OverviewPresenter = OverviewPresenter(i)
 
 }

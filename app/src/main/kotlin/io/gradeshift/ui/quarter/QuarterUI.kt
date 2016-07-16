@@ -21,11 +21,8 @@ class QuarterUI(
 
     lateinit var quarterAdapter: QuarterAdapter
 
-    override val showGrades = ui<List<Grade>> { quarterAdapter.setGrades(it) }
-
-    override fun onItemPress(position: Int) {
-        Timber.i("Pressed item $position")
-    }
+    override val showGrades = ui<List<Grade>> { quarterAdapter.grades = it }
+    override fun onItemPress(position: Int) = Timber.i("Pressed item $position")
 
     override fun createView(ui: AnkoContext<QuarterActivity>) = with(ui) {
         quarterAdapter = adapterProvider.get()
