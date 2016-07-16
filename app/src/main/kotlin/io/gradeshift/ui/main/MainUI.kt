@@ -14,7 +14,7 @@ class MainUI : AnkoComponent<MainActivity> {
 
             button {
                 textResource = R.string.view_grades
-                onClick { startActivity<OverviewActivity>() }
+                onClick { ctx.startActivity(OverviewActivity.intent(ctx))}
             }.lparams { centerInParent() }
         }
     }

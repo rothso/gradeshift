@@ -9,11 +9,18 @@ import rx.functions.Func1
 import rx.lang.kotlin.plusAssign
 import rx.schedulers.Schedulers
 import rx.subscriptions.CompositeSubscription
+import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
 class OverviewPresenter {
 
+    init {
+        // TODO survive orientation changes, or simply be passive?
+        Timber.i("Creating presenter")
+    }
+
     fun bind(view: View): Subscription {
+        Timber.i("Binding view")
         val subscription = CompositeSubscription()
 
         val classes = fetchClasses().share()
@@ -27,6 +34,7 @@ class OverviewPresenter {
         return subscription
     }
 
+    // TODO move to interactor
     private fun fetchClasses(): Observable<List<Class>> =
             Observable.defer { Observable.just(Class.DUMMY_CLASSES) }
                     .delay(5, TimeUnit.SECONDS)

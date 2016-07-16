@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="grades_overview_list" type="id"/>
-    <item name="grades_overview_item_name" type="id"/>
-    <item name="grades_overview_item_score" type="id"/>
+    <item name="grades_overview_class_name" type="id"/>
+    <item name="grades_overview_class_score" type="id"/>
+    <item name="quarter_class_grade_name" type="id"/>
+    <item name="quarter_class_grade_points_earned" type="id"/>
+    <item name="quarter_class_grade_points_possible" type="id"/>
+    <item name="quarter_class_grade_score" type="id"/>
 </resources>

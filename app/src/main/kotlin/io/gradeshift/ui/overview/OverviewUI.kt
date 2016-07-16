@@ -60,7 +60,7 @@ class OverviewUI @Inject constructor(
                         gravity = Gravity.CENTER_VERTICAL
                         weight = 1.0f
                     }
-                    id = R.id.grades_overview_item_name
+                    id = R.id.grades_overview_class_name
                     singleLine = true
                     ellipsize = TextUtils.TruncateAt.END
                     textSize = 16f
@@ -71,7 +71,7 @@ class OverviewUI @Inject constructor(
                         gravity = Gravity.CENTER_VERTICAL
                         marginStart = dip(8)
                     }
-                    id = R.id.grades_overview_item_score
+                    id = R.id.grades_overview_class_score
                     textSize = 16f
                     typeface = Typeface.create(typeface, Typeface.BOLD)
                     gravity = Gravity.CENTER_HORIZONTAL

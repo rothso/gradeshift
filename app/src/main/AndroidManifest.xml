@@ -21,9 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.overview.OverviewActivity">
+        <activity
+            android:name=".ui.overview.OverviewActivity"
+            android:launchMode="singleTop">
         </activity>
-        <activity android:name=".ui.quarter.QuarterActivity">
+        <activity
+            android:name=".ui.quarter.QuarterActivity"
+            android:parentActivityName=".ui.overview.OverviewActivity">
         </activity>
     </application>
 
