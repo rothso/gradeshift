@@ -15,7 +15,7 @@ class OverviewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        GradesApplication.graph.plus(OverviewModule()).inject(this)
+        GradesApplication.graph.plus(OverviewModule(this)).inject(this)
         ui.setContentView(this)
         subscription = presenter.bind(ui)
     }

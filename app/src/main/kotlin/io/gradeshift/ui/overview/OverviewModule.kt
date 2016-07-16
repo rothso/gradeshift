@@ -6,7 +6,10 @@ import io.gradeshift.ui.ActivityScope
 import javax.inject.Provider
 
 @Module
-class OverviewModule {
+class OverviewModule(val context: OverviewActivity) {
+
+    @Provides @ActivityScope
+    fun provideNavigator(): Navigator = Navigator(context)
 
     @Provides @ActivityScope
     fun providePresenter(): OverviewPresenter = OverviewPresenter()
@@ -15,6 +18,6 @@ class OverviewModule {
     fun provideAdapter(listener: OverviewUI): OverviewAdapter = OverviewAdapter(listener)
 
     @Provides @ActivityScope
-    fun provideUI(adapter: Provider<OverviewAdapter>): OverviewUI = OverviewUI(adapter)
+    fun provideUI(adapter: Provider<OverviewAdapter>, navigator: Navigator): OverviewUI = OverviewUI(adapter, navigator)
 
 }

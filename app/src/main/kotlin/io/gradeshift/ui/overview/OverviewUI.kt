@@ -16,13 +16,16 @@ import org.jetbrains.anko.recyclerview.v7.recyclerView
 import javax.inject.Inject
 import javax.inject.Provider
 
-class OverviewUI @Inject constructor(val adapterProvider: Provider<OverviewAdapter>) :
-        AnkoComponent<OverviewActivity>, OverviewPresenter.View, ItemPressListener {
+class OverviewUI @Inject constructor(
+        val adapterProvider: Provider<OverviewAdapter>,
+        val navigator: Navigator
+) : AnkoComponent<OverviewActivity>, OverviewPresenter.View, ItemPressListener {
 
     lateinit var overviewAdapter: OverviewAdapter
 
     override val itemClicks : PublishRelay<Int> = PublishRelay.create()
     override val showClasses = ui<List<Class>> { overviewAdapter.setClasses(it) }
+    override val showClassDetail = ui<Class> { navigator.showClass(it.id) }
 
     override fun onItemPress(position: Int) = itemClicks.call(position)
 

@@ -19,7 +19,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="io.gradeshift.ui.overview.OverviewActivity">
+        <activity android:name=".ui.overview.OverviewActivity">
+        </activity>
+        <activity android:name=".ui.quarter.QuarterActivity">
         </activity>
     </application>
 

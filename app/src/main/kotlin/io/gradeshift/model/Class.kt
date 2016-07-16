@@ -1,12 +1,12 @@
 package io.gradeshift.model
 
-data class Class(val name: String, val teacher: String, val grade: Int) {
+data class Class(val id: Int, val name: String, val teacher: String, val grade: Int) {
 
     companion object {
         val DUMMY_CLASSES: List<Class> = listOf(
-                Class("Chemistry", "Dr. HCL", 100),
-                Class("History", "Henry VIII", 80),
-                Class("Calculus", "Ms. Lady", 86)
+                Class(0, "Chemistry", "Dr. HCL", 100),
+                Class(1, "History", "Henry VIII", 80),
+                Class(2, "Calculus", "Ms. Lady", 86)
         )
     }
 
