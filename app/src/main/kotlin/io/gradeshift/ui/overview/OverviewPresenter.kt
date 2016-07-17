@@ -1,12 +1,11 @@
 package io.gradeshift.ui.overview
 
-import com.artemzin.rxui.kotlin.bind
 import io.gradeshift.domain.OverviewInteractor
 import io.gradeshift.model.Class
 import io.gradeshift.ui.base.Presenter
+import io.gradeshift.ui.ext.bind
 import rx.Observable
 import rx.Subscription
-import rx.functions.Func1
 import rx.lang.kotlin.plusAssign
 import rx.subscriptions.CompositeSubscription
 
@@ -34,7 +33,8 @@ class OverviewPresenter(val interactor: OverviewInteractor) : Presenter<Overview
         val refreshes: Observable<Void>
 
         // Replace Func1<..> with a type alias when those puppies come out
-        val showClasses: Func1<Observable<List<Class>>, Subscription>
-        val showClassDetail: Func1<Observable<Class>, Subscription>
+        val showClasses: (Observable<List<Class>>) -> Subscription
+        val showClassDetail: (Observable<Class>) -> Subscription
     }
 }
+

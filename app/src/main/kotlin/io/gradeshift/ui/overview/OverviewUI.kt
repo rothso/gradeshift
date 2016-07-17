@@ -7,11 +7,11 @@ import android.text.TextUtils
 import android.view.Gravity
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import com.artemzin.rxui.RxUi.ui
 import com.jakewharton.rxrelay.PublishRelay
 import io.gradeshift.R
 import io.gradeshift.model.Class
 import io.gradeshift.ui.ext.ItemPressListener
+import io.gradeshift.ui.ext.ui
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.onRefresh
@@ -26,8 +26,8 @@ class OverviewUI @Inject constructor(
     lateinit var overviewAdapter: OverviewAdapter
     lateinit var refreshView: SwipeRefreshLayout
 
-    override val itemClicks : PublishRelay<Int> = PublishRelay.create()
-    override val refreshes : PublishRelay<Void> = PublishRelay.create()
+    override val itemClicks: PublishRelay<Int> = PublishRelay.create()
+    override val refreshes: PublishRelay<Void> = PublishRelay.create()
     override val showClassDetail = ui<Class> { navigator.showClass(it.id) }
     override val showClasses = ui<List<Class>> {
         refreshView.isRefreshing = false
