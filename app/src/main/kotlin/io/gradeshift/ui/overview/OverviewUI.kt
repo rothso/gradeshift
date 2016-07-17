@@ -1,6 +1,7 @@
 package io.gradeshift.ui.overview
 
 import android.graphics.Typeface
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.Gravity
@@ -13,6 +14,8 @@ import io.gradeshift.model.Class
 import io.gradeshift.ui.ext.ItemPressListener
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
+import org.jetbrains.anko.support.v4.onRefresh
+import org.jetbrains.anko.support.v4.swipeRefreshLayout
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -21,10 +24,16 @@ class OverviewUI @Inject constructor(
         val navigator: Navigator
 ) : AnkoComponent<OverviewActivity>, OverviewPresenter.View, ItemPressListener {
     lateinit var overviewAdapter: OverviewAdapter
+    lateinit var refreshView: SwipeRefreshLayout
 
     override val itemClicks : PublishRelay<Int> = PublishRelay.create()
-    override val showClasses = ui<List<Class>> { overviewAdapter.classes = it }
+    override val refreshes : PublishRelay<Void> = PublishRelay.create()
     override val showClassDetail = ui<Class> { navigator.showClass(it.id) }
+    override val showClasses = ui<List<Class>> {
+        refreshView.isRefreshing = false
+        overviewAdapter.classes = it
+    }
+
     override fun onItemPress(position: Int) = itemClicks.call(position)
 
     override fun createView(ui: AnkoContext<OverviewActivity>) = with(ui) {
@@ -32,13 +41,22 @@ class OverviewUI @Inject constructor(
 
         frameLayout() {
             lparams(width = matchParent, height = matchParent)
-            // TODO wrap RecyclerView, error view in SwipeRefreshLayout
-            recyclerView {
-                id = R.id.grades_overview_list
+
+            refreshView = swipeRefreshLayout {
                 lparams(width = matchParent, height = matchParent)
-                layoutManager = LinearLayoutManager(ctx)
-                adapter = overviewAdapter
-                setHasFixedSize(true) // All views are the same height and width
+                post { isRefreshing = true } // Awaiting the initial data fetch
+                onRefresh {
+                    refreshes.call(null)
+                    isRefreshing = true
+                }
+
+                recyclerView {
+                    id = R.id.grades_overview_list
+                    lparams(width = matchParent, height = matchParent)
+                    layoutManager = LinearLayoutManager(ctx)
+                    adapter = overviewAdapter
+                    setHasFixedSize(true) // All views are the same height and width
+                }
             }
             // TODO error view
         }

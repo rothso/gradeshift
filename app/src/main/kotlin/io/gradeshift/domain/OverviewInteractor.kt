@@ -9,6 +9,6 @@ class OverviewInteractor {
 
     fun getClasses(): Observable<List<Class>> =
             Observable.defer { Observable.just(Class.DUMMY_CLASSES) }
-                    .delay(5, TimeUnit.SECONDS)
+                    .delay(2, TimeUnit.SECONDS)
                     .subscribeOn(Schedulers.io())
 }

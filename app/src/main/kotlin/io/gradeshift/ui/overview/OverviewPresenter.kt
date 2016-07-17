@@ -17,17 +17,22 @@ class OverviewPresenter(val interactor: OverviewInteractor) : Presenter<Overview
         val subscription = CompositeSubscription()
         val classes = interactor.getClasses().share()
 
+        // TODO handle network, etc. errors
         subscription += classes.bind(view.showClasses)
         subscription += Observable
                 .combineLatest(classes, view.itemClicks, { classes, pos -> classes[pos] })
                 .onBackpressureLatest()
                 .bind(view.showClassDetail)
 
+        // TODO onRefresh -> upstream update
+
         return subscription
     }
 
     interface View {
         val itemClicks: Observable<Int>
+        val refreshes: Observable<Void>
+
         // Replace Func1<..> with a type alias when those puppies come out
         val showClasses: Func1<Observable<List<Class>>, Subscription>
         val showClassDetail: Func1<Observable<Class>, Subscription>
