@@ -1,4 +1,4 @@
-package io.gradeshift.ui.quarter
+package io.gradeshift.ui.period
 
 import android.graphics.Typeface
 import android.support.v7.widget.LinearLayoutManager
@@ -15,17 +15,17 @@ import org.jetbrains.anko.recyclerview.v7.recyclerView
 import timber.log.Timber
 import javax.inject.Provider
 
-class QuarterUI(
-        val adapterProvider: Provider<QuarterAdapter>
-) : AnkoComponent<QuarterActivity>, QuarterPresenter.View, ItemPressListener {
+class PeriodUI(
+        val adapterProvider: Provider<PeriodAdapter>
+) : AnkoComponent<PeriodActivity>, PeriodPresenter.View, ItemPressListener {
 
-    lateinit var quarterAdapter: QuarterAdapter
+    lateinit var periodAdapter: PeriodAdapter
 
-    override val showGrades = ui<List<Grade>> { quarterAdapter.grades = it }
+    override val showGrades = ui<List<Grade>> { periodAdapter.grades = it }
     override fun onItemPress(position: Int) = Timber.i("Pressed item $position")
 
-    override fun createView(ui: AnkoContext<QuarterActivity>) = with(ui) {
-        quarterAdapter = adapterProvider.get()
+    override fun createView(ui: AnkoContext<PeriodActivity>) = with(ui) {
+        periodAdapter = adapterProvider.get()
 
         frameLayout() {
             lparams(width = matchParent, height = matchParent)
@@ -33,7 +33,7 @@ class QuarterUI(
                 id = R.id.grades_overview_list
                 lparams(width = matchParent, height = matchParent)
                 layoutManager = LinearLayoutManager(ctx)
-                adapter = quarterAdapter
+                adapter = periodAdapter
                 setHasFixedSize(true) // All views are the same height and width
             }
         }
@@ -52,7 +52,7 @@ class QuarterUI(
                         gravity = Gravity.CENTER_VERTICAL
                         weight = 1.0f
                     }
-                    id = R.id.quarter_class_grade_name
+                    id = R.id.period_class_grade_name
                     singleLine = true
                     ellipsize = TextUtils.TruncateAt.END
                     textSize = 16f
@@ -66,14 +66,14 @@ class QuarterUI(
                     gravity = Gravity.CENTER_HORIZONTAL
 
                     textView {
-                        id = R.id.quarter_class_grade_points_earned
+                        id = R.id.period_class_grade_points_earned
                         textSize = 16f
                     }
                     textView("/") {
                         textSize = 16f
                     }
                     textView {
-                        id = R.id.quarter_class_grade_points_possible
+                        id = R.id.period_class_grade_points_possible
                         textSize = 16f
                     }
                 }
@@ -83,7 +83,7 @@ class QuarterUI(
                         gravity = Gravity.CENTER_VERTICAL
                         marginStart = dip(8)
                     }
-                    id = R.id.quarter_class_grade_score
+                    id = R.id.period_grade_score
                     textSize = 16f
                     typeface = Typeface.create(typeface, Typeface.BOLD)
                     gravity = Gravity.CENTER_HORIZONTAL

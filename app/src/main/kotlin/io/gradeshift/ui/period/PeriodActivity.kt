@@ -1,4 +1,4 @@
-package io.gradeshift.ui.quarter
+package io.gradeshift.ui.period
 
 import android.content.Context
 import android.content.Intent
@@ -13,16 +13,16 @@ import org.jetbrains.anko.setContentView
 import rx.Subscription
 import javax.inject.Inject
 
-class QuarterActivity : AppCompatActivity() {
-    @Inject lateinit var ui: QuarterUI
-    @Inject lateinit var presenter: QuarterPresenter
+class PeriodActivity : AppCompatActivity() {
+    @Inject lateinit var ui: PeriodUI
+    @Inject lateinit var presenter: PeriodPresenter
     lateinit var subscription: Subscription
 
     companion object {
         const val EXTRA_CLASS_ID: String = "CLASS_ID"
 
         fun intent(context: Context, classId: Int): Intent {
-            return context.intentFor<QuarterActivity>(EXTRA_CLASS_ID to classId)
+            return context.intentFor<PeriodActivity>(EXTRA_CLASS_ID to classId)
         }
     }
 
@@ -32,7 +32,7 @@ class QuarterActivity : AppCompatActivity() {
 
         val classId = intent.getIntExtra(EXTRA_CLASS_ID, -1)
 
-        GradesApplication.graph.plus(QuarterModule(classId)).inject(this)
+        GradesApplication.graph.plus(PeriodModule(classId)).inject(this)
         ui.setContentView(this)
         subscription = presenter.bind(ui)
     }

@@ -5,8 +5,8 @@ import io.gradeshift.ui.main.MainComponent
 import io.gradeshift.ui.main.MainModule
 import io.gradeshift.ui.overview.OverviewComponent
 import io.gradeshift.ui.overview.OverviewModule
-import io.gradeshift.ui.quarter.QuarterComponent
-import io.gradeshift.ui.quarter.QuarterModule
+import io.gradeshift.ui.period.PeriodComponent
+import io.gradeshift.ui.period.PeriodModule
 import javax.inject.Singleton
 
 @Singleton
@@ -14,6 +14,6 @@ import javax.inject.Singleton
 interface ApplicationComponent {
     fun plus(mainModule: MainModule): MainComponent
     fun plus(overviewModule: OverviewModule): OverviewComponent
-    fun plus(quarterModule: QuarterModule): QuarterComponent
+    fun plus(periodModule: PeriodModule): PeriodComponent
 }
 

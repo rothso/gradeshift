@@ -1,4 +1,4 @@
-package io.gradeshift.ui.quarter
+package io.gradeshift.ui.period
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -12,7 +12,7 @@ import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import javax.inject.Inject
 
-class QuarterAdapter @Inject constructor(val listener: ItemPressListener) : RecyclerView.Adapter<QuarterAdapter.ViewHolder>() {
+class PeriodAdapter @Inject constructor(val listener: ItemPressListener) : RecyclerView.Adapter<PeriodAdapter.ViewHolder>() {
 
     var grades: List<Grade> = emptyList()
         set(value) {
@@ -21,7 +21,7 @@ class QuarterAdapter @Inject constructor(val listener: ItemPressListener) : Recy
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(QuarterUI.Item().createView(AnkoContext.create(parent.context, parent)))
+        return ViewHolder(PeriodUI.Item().createView(AnkoContext.create(parent.context, parent)))
                 .withItemPressListener(listener)
     }
 
@@ -40,9 +40,9 @@ class QuarterAdapter @Inject constructor(val listener: ItemPressListener) : Recy
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val name = view.find<TextView>(R.id.quarter_class_grade_name)
-        val pointsEarned = view.find<TextView>(R.id.quarter_class_grade_points_earned)
-        val pointsPossible = view.find<TextView>(R.id.quarter_class_grade_points_possible)
-        val score = view.find<TextView>(R.id.quarter_class_grade_score)
+        val name = view.find<TextView>(R.id.period_class_grade_name)
+        val pointsEarned = view.find<TextView>(R.id.period_class_grade_points_earned)
+        val pointsPossible = view.find<TextView>(R.id.period_class_grade_points_possible)
+        val score = view.find<TextView>(R.id.period_grade_score)
     }
 }

@@ -1,4 +1,4 @@
-package io.gradeshift.ui.quarter
+package io.gradeshift.ui.period
 
 import com.artemzin.rxui.kotlin.bind
 import io.gradeshift.domain.QuarterGradesInteractor
@@ -10,7 +10,7 @@ import rx.functions.Func1
 import rx.lang.kotlin.plusAssign
 import rx.subscriptions.CompositeSubscription
 
-class QuarterPresenter(val interactor: QuarterGradesInteractor) : Presenter<QuarterPresenter.View>() {
+class PeriodPresenter(val interactor: QuarterGradesInteractor) : Presenter<PeriodPresenter.View>() {
 
     override fun bind(view: View): Subscription {
         val subscription = CompositeSubscription()

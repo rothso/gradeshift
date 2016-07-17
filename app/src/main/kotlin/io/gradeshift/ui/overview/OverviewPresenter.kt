@@ -1,6 +1,5 @@
 package io.gradeshift.ui.overview
 
-//import io.gradeshift.ui.ext.plusAssign
 import com.artemzin.rxui.kotlin.bind
 import io.gradeshift.domain.OverviewInteractor
 import io.gradeshift.model.Class
@@ -17,7 +16,7 @@ class OverviewPresenter(val interactor: OverviewInteractor) : Presenter<Overview
         val subscription = CompositeSubscription()
         val classes = interactor.getClasses().share()
 
-        // TODO handle network, etc. errors
+        // TODO handle network, etc. errors with onErrorReturn
         subscription += classes.bind(view.showClasses)
         subscription += Observable
                 .combineLatest(classes, view.itemClicks, { classes, pos -> classes[pos] })
@@ -25,6 +24,7 @@ class OverviewPresenter(val interactor: OverviewInteractor) : Presenter<Overview
                 .bind(view.showClassDetail)
 
         // TODO onRefresh -> upstream update
+        // TODO handle showLoading in the Presenter only
 
         return subscription
     }
