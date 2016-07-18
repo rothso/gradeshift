@@ -18,6 +18,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    lintOptions {
+        disable 'PrivateResource'
+    }
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
@@ -38,7 +41,9 @@ dependencies {
     androidTestCompile 'com.android.support:support-annotations:24.0.0'
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
+    // Debugging, etc.
     compile 'com.jakewharton.timber:timber:4.1.2'
+    compile 'com.facebook.stetho:stetho:1.3.1'
 
     // Dagger 2
     compile 'com.google.dagger:dagger:2.5'

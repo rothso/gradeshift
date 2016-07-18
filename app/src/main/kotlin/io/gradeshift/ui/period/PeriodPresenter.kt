@@ -10,6 +10,7 @@ import rx.functions.Func1
 import rx.lang.kotlin.plusAssign
 import rx.subscriptions.CompositeSubscription
 
+// TODO make sure I'm scoped to the current period
 class PeriodPresenter(val interactor: QuarterGradesInteractor) : Presenter<PeriodPresenter.View>() {
 
     override fun bind(view: View): Subscription {

@@ -6,6 +6,6 @@ import io.gradeshift.ui.ActivityScope
 @ActivityScope
 @Subcomponent(modules = arrayOf(PeriodModule::class))
 interface PeriodComponent {
-    fun inject(periodActivity: PeriodActivity)
+    fun inject(periodFragment: PeriodFragment)
 }
 

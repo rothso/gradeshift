@@ -17,14 +17,14 @@ import javax.inject.Provider
 
 class PeriodUI(
         val adapterProvider: Provider<PeriodAdapter>
-) : AnkoComponent<PeriodActivity>, PeriodPresenter.View, ItemPressListener {
+) : AnkoComponent<PeriodFragment>, PeriodPresenter.View, ItemPressListener {
 
     lateinit var periodAdapter: PeriodAdapter
 
     override val showGrades = ui<List<Grade>> { periodAdapter.grades = it }
     override fun onItemPress(position: Int) = Timber.i("Pressed item $position")
 
-    override fun createView(ui: AnkoContext<PeriodActivity>) = with(ui) {
+    override fun createView(ui: AnkoContext<PeriodFragment>) = with(ui) {
         periodAdapter = adapterProvider.get()
 
         frameLayout() {
