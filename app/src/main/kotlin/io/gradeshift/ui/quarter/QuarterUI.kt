@@ -31,11 +31,15 @@ class QuarterUI : AnkoComponent<QuarterActivity> {
     override fun createView(ui: AnkoContext<QuarterActivity>) = with(ui) {
         coordinatorLayout {
             lparams(width = matchParent, height = matchParent)
+            fitsSystemWindows = true
 
             appBarLayout(R.style.ThemeOverlay_AppCompat_Dark_ActionBar) {
                 setExpanded(false) // Start with collapsible content hidden
+                fitsSystemWindows = true
 
                 collapsingToolbarLayout {
+                    // TODO handle fling
+                    statusBarScrim = ColorDrawable(Color.TRANSPARENT)
                     contentScrim = ColorDrawable(colorAttr(R.attr.colorPrimary))
                     fitsSystemWindows = true
                     isTitleEnabled = false

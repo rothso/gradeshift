@@ -5,11 +5,22 @@ package io.gradeshift.ui.ext
 import android.app.Fragment
 import android.content.Context
 import android.os.Build
+import android.support.annotation.StyleRes
 import android.util.TypedValue
 import android.view.View
+import android.widget.TextView
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.wrapContent
+
+fun TextView.setTextAppearanceCompat(@StyleRes resId: Int) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+        @Suppress("DEPRECATION")
+        setTextAppearance(context, resId)
+    } else {
+        setTextAppearance(resId)
+    }
+}
 
 // Ferenc Boldog <https://github.com/fboldog>
 
@@ -27,6 +38,7 @@ fun Context.colorAttr(attribute: Int): Int {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
         resources.getColor(attr(attribute).resourceId, ctx.theme)
     } else {
+        @Suppress("DEPRECATION")
         resources.getColor(attr(attribute).resourceId)
     }
 } // -> color

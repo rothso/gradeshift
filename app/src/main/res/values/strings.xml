@@ -2,4 +2,6 @@
     <string name="app_name">Gradeshift</string>
     <string name="action_settings">Settings</string>
     <string name="view_grades">View Grades</string>
+    <string name="desc_navigation_drawer_open">Open navigation drawer</string>
+    <string name="desc_navigation_drawer_close">Close navigation drawer</string>
 </resources>
