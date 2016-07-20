@@ -1,7 +1,7 @@
 package io.gradeshift.ui.period
 
 import dagger.Subcomponent
-import io.gradeshift.ui.ActivityScope
+import io.gradeshift.ui.common.ActivityScope
 
 @ActivityScope
 @Subcomponent(modules = arrayOf(PeriodModule::class))

@@ -1,7 +1,7 @@
 package io.gradeshift.ui.main
 
 import io.gradeshift.R
-import io.gradeshift.ui.ext.colorAttr
+import io.gradeshift.ui.common.ext.colorAttr
 import io.gradeshift.ui.overview.OverviewActivity
 import org.jetbrains.anko.*
 import org.jetbrains.anko.design.coordinatorLayout

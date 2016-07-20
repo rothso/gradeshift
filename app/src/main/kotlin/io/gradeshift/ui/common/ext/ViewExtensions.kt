@@ -1,4 +1,4 @@
-package io.gradeshift.ui.ext
+package io.gradeshift.ui.common.ext
 
 import android.support.v7.widget.RecyclerView
 

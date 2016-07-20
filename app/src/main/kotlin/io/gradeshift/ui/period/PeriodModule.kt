@@ -3,7 +3,7 @@ package io.gradeshift.ui.period
 import dagger.Module
 import dagger.Provides
 import io.gradeshift.domain.QuarterGradesInteractor
-import io.gradeshift.ui.ActivityScope
+import io.gradeshift.ui.common.ActivityScope
 import javax.inject.Provider
 
 @Module

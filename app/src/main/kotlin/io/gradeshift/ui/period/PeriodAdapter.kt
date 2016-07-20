@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import io.gradeshift.R
 import io.gradeshift.model.Grade
-import io.gradeshift.ui.ext.ItemPressListener
-import io.gradeshift.ui.ext.withItemPressListener
+import io.gradeshift.ui.common.ext.ItemPressListener
+import io.gradeshift.ui.common.ext.withItemPressListener
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import javax.inject.Inject

@@ -1,19 +1,27 @@
 @file:Suppress("NOTHING_TO_INLINE")
 
-package io.gradeshift.ui.ext
+package io.gradeshift.ui.common.ext
 
+import android.app.Activity
 import android.app.Fragment
 import android.content.Context
 import android.os.Build
 import android.support.annotation.StyleRes
+import android.support.design.widget.Snackbar
 import android.util.TypedValue
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.ctx
 import org.jetbrains.anko.wrapContent
 
-fun TextView.setTextAppearanceCompat(@StyleRes resId: Int) {
+fun Activity.snackBar(message: CharSequence) {
+    // Draws under the Navigation bar, but no worries at this stage
+    Snackbar.make(window.decorView.rootView, message, Toast.LENGTH_SHORT).show()
+}
+
+inline fun TextView.setTextAppearanceCompat(@StyleRes resId: Int) {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
         @Suppress("DEPRECATION")
         setTextAppearance(context, resId)

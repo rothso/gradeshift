@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- TODO better palette naming -->
-    <color name="colorPrimary">#4dd0e1</color>
-    <color name="colorPrimaryDark">#00acc1</color>
-    <color name="colorAccent">#FF4081</color>
+    <!--<color name="colorPrimary">#4dd0e1</color>-->
+    <!--<color name="colorPrimaryDark">#4dd0e1</color>-->
+    <!--<color name="colorAccent">#FF4081</color>-->
+    <color name="colorPrimary">#E91E63</color>
+    <color name="colorPrimaryDark">#C2185B</color>
+    <color name="colorAccent">#FF9800</color>
 </resources>

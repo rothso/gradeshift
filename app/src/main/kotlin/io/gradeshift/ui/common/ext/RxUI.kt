@@ -1,4 +1,4 @@
-package io.gradeshift.ui.ext
+package io.gradeshift.ui.common.ext
 
 import rx.Observable
 import rx.Subscription

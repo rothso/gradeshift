@@ -9,7 +9,7 @@ import android.widget.LinearLayout
 import com.artemzin.rxui.RxUi.ui
 import io.gradeshift.R
 import io.gradeshift.model.Grade
-import io.gradeshift.ui.ext.ItemPressListener
+import io.gradeshift.ui.common.ext.ItemPressListener
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import timber.log.Timber

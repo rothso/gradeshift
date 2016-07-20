@@ -1,4 +1,4 @@
-package io.gradeshift.ui
+package io.gradeshift.ui.common
 
 import javax.inject.Scope
 

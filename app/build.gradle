@@ -18,6 +18,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    //noinspection GroovyMissingReturnStatement
     lintOptions {
         disable 'PrivateResource'
     }
@@ -57,8 +58,6 @@ dependencies {
     compile 'com.jakewharton.rxrelay:rxrelay:1.1.0'
     compile 'com.artemzin.rxui:rxui:1.0.1'
     compile 'com.artemzin.rxui:rxui-kotlin:1.0.1'
-
-    // Anko
     compile 'org.jetbrains.anko:anko-sdk19:0.9'
     compile 'org.jetbrains.anko:anko-support-v4:0.9'
     compile 'org.jetbrains.anko:anko-appcompat-v7:0.9'

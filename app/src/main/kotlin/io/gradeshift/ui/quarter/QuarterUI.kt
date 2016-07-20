@@ -6,14 +6,13 @@ import android.support.design.widget.AppBarLayout
 import android.support.design.widget.AppBarLayout.LayoutParams.*
 import android.support.design.widget.CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN
 import android.support.design.widget.TabLayout
-import android.support.v4.graphics.ColorUtils
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.Toolbar
 import android.view.Gravity
 import io.gradeshift.R
-import io.gradeshift.ui.ext.colorAttr
-import io.gradeshift.ui.ext.ctlparams
-import io.gradeshift.ui.ext.dimenAttr
+import io.gradeshift.ui.common.ext.colorAttr
+import io.gradeshift.ui.common.ext.ctlparams
+import io.gradeshift.ui.common.ext.dimenAttr
 import org.jetbrains.anko.*
 import org.jetbrains.anko.appcompat.v7.toolbar
 import org.jetbrains.anko.design.appBarLayout
@@ -59,7 +58,7 @@ class QuarterUI : AnkoComponent<QuarterActivity> {
                 collapsingToolbarLayout {
                     tabLayout = tabLayout {
                         tabMode = TabLayout.MODE_SCROLLABLE
-                        setTabTextColors(ColorUtils.setAlphaComponent(Color.WHITE, 255 / 2), Color.WHITE)
+                        setTabTextColors(Color.WHITE.withAlpha(255/2), Color.WHITE)
                         setSelectedTabIndicatorColor(colorAttr(R.attr.colorAccent))
                     }.ctlparams(width = matchParent, height = wrapContent) {
                         gravity = Gravity.BOTTOM

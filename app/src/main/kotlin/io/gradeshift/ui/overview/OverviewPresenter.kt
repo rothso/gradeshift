@@ -2,8 +2,8 @@ package io.gradeshift.ui.overview
 
 import io.gradeshift.domain.OverviewInteractor
 import io.gradeshift.model.Class
-import io.gradeshift.ui.base.Presenter
-import io.gradeshift.ui.ext.bind
+import io.gradeshift.ui.common.base.Presenter
+import io.gradeshift.ui.common.ext.bind
 import rx.Observable
 import rx.Subscription
 import rx.lang.kotlin.plusAssign

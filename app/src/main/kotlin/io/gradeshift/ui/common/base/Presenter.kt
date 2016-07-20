@@ -1,4 +1,4 @@
-package io.gradeshift.ui.base
+package io.gradeshift.ui.common.base
 
 import rx.Subscription
 import timber.log.Timber

@@ -3,7 +3,7 @@ package io.gradeshift.ui.period
 import com.artemzin.rxui.kotlin.bind
 import io.gradeshift.domain.QuarterGradesInteractor
 import io.gradeshift.model.Grade
-import io.gradeshift.ui.base.Presenter
+import io.gradeshift.ui.common.base.Presenter
 import rx.Observable
 import rx.Subscription
 import rx.functions.Func1
