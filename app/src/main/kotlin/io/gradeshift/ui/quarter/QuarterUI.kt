@@ -1,14 +1,14 @@
 package io.gradeshift.ui.quarter
 
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.AppBarLayout.LayoutParams.*
-import android.support.design.widget.CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN
+import android.support.design.widget.CollapsingToolbarLayout
 import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.Toolbar
 import android.view.Gravity
+import android.view.View
 import io.gradeshift.R
 import io.gradeshift.ui.common.ext.colorAttr
 import io.gradeshift.ui.common.ext.ctlparams
@@ -37,21 +37,18 @@ class QuarterUI : AnkoComponent<QuarterActivity> {
                 fitsSystemWindows = true
 
                 collapsingToolbarLayout {
-                    // TODO handle fling
-                    statusBarScrim = ColorDrawable(Color.TRANSPARENT)
-                    contentScrim = ColorDrawable(colorAttr(R.attr.colorPrimary))
-                    fitsSystemWindows = true
                     isTitleEnabled = false
 
+                    // TODO fade out toolbar title on expand
                     toolbar = toolbar {
                         gravity = Gravity.TOP
                         popupTheme = R.style.ThemeOverlay_AppCompat_Light
                         onClick { this@appBarLayout.setExpanded(true) }
                     }.ctlparams(width = matchParent, height = dimenAttr(R.attr.actionBarSize)) {
-                        collapseMode = COLLAPSE_MODE_PIN
+                        collapseMode = CollapsingToolbarLayout.LayoutParams.COLLAPSE_MODE_PIN
                     }
 
-                }.lparams(width = matchParent, height = dip(250)) {
+                }.lparams(width = matchParent, height = dip(200)) {
                     scrollFlags = SCROLL_FLAG_SCROLL or SCROLL_FLAG_EXIT_UNTIL_COLLAPSED or SCROLL_FLAG_SNAP
                 }
 
@@ -60,6 +57,8 @@ class QuarterUI : AnkoComponent<QuarterActivity> {
                         tabMode = TabLayout.MODE_SCROLLABLE
                         setTabTextColors(Color.WHITE.withAlpha(255/2), Color.WHITE)
                         setSelectedTabIndicatorColor(colorAttr(R.attr.colorAccent))
+                        leftPadding = dip(60)
+                        clipToPadding = false
                     }.ctlparams(width = matchParent, height = wrapContent) {
                         gravity = Gravity.BOTTOM
                     }
@@ -67,10 +66,10 @@ class QuarterUI : AnkoComponent<QuarterActivity> {
                     scrollFlags = SCROLL_FLAG_SCROLL or SCROLL_FLAG_ENTER_ALWAYS
                 }
 
-            }.lparams(width = matchParent, height = wrapContent)
+            }.lparams(width = matchParent)
 
             viewPager = viewPager {
-                id = R.id.quarter_viewpager
+                id = View.generateViewId()
             }.lparams(width = matchParent, height = matchParent) {
                 behavior = AppBarLayout.ScrollingViewBehavior() // appbar_scrolling_view_behavior
             }

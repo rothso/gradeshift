@@ -2,6 +2,7 @@ package io.gradeshift.ui.period
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,7 +34,7 @@ class PeriodFragment : Fragment() {
         // TODO surely we need a QuarterID too, right?
         val classId = arguments.getInt(ARG_CLASS_ID)
         GradesApplication.graph.plus(PeriodModule(classId)).inject(this)
-        val view = ui.createView(AnkoContext.Companion.create(ctx, this))
+        val view = ui.createView(AnkoContext.create(ctx, this))
         subscription = presenter.bind(ui)
         return view
     }

@@ -1,6 +1,7 @@
 package io.gradeshift.ui.period
 
 import android.graphics.Typeface
+import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.text.TextUtils
 import android.view.Gravity
@@ -12,6 +13,8 @@ import io.gradeshift.model.Grade
 import io.gradeshift.ui.common.ext.ItemPressListener
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
+import org.jetbrains.anko.support.v4.onRefresh
+import org.jetbrains.anko.support.v4.swipeRefreshLayout
 import timber.log.Timber
 import javax.inject.Provider
 
@@ -27,12 +30,17 @@ class PeriodUI(
     override fun createView(ui: AnkoContext<PeriodFragment>) = with(ui) {
         periodAdapter = adapterProvider.get()
 
-        frameLayout() {
-            lparams(width = matchParent, height = matchParent)
+        swipeRefreshLayout {
+            onRefresh {
+                // TODO support
+                isRefreshing = true
+            }
+
             recyclerView {
                 id = R.id.grades_overview_list
                 lparams(width = matchParent, height = matchParent)
                 layoutManager = LinearLayoutManager(ctx)
+                itemAnimator = DefaultItemAnimator()
                 adapter = periodAdapter
                 setHasFixedSize(true) // All views are the same height and width
             }
