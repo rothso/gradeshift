@@ -36,6 +36,10 @@ class OverviewAdapter @Inject constructor(val listener: ItemPressListener) : Rec
         return classes.size
     }
 
+    fun getItem(position: Int): Class {
+        return classes[position]
+    }
+
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name = view.find<TextView>(R.id.grades_overview_class_name)
         val score = view.find<TextView>(R.id.grades_overview_class_score)

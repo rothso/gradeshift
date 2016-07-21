@@ -25,7 +25,7 @@ class PeriodUI(
     lateinit var periodAdapter: PeriodAdapter
 
     override val showGrades = ui<List<Grade>> { periodAdapter.grades = it }
-    override fun onItemPress(position: Int) = Timber.i("Pressed item $position")
+    override fun onItemPress(pos: Int) = Timber.i("Pressed item $pos")
 
     override fun createView(ui: AnkoContext<PeriodFragment>) = with(ui) {
         periodAdapter = adapterProvider.get()

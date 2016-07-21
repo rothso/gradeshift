@@ -27,26 +27,20 @@ class OverviewUI @Inject constructor(
     private lateinit var overviewAdapter: OverviewAdapter
     private lateinit var refreshView: SwipeRefreshLayout
 
-    override val itemClicks: PublishRelay<Int> = PublishRelay.create()
-    override val refreshes: PublishRelay<Void> = PublishRelay.create()
+    override val itemClicks: PublishRelay<Class> = PublishRelay.create()
+    override val refreshes: PublishRelay<Unit> = PublishRelay.create()
     override val showClassDetail = ui<Class> { navigator.showClass(it.id) }
-    override val showClasses = ui<List<Class>> {
-        refreshView.isRefreshing = false
-        overviewAdapter.classes = it
-    }
+    override val showClasses = ui<List<Class>> { overviewAdapter.classes = it }
+    override val loading = ui<Boolean> { refreshView.isRefreshing = it }
 
-    override fun onItemPress(position: Int) = itemClicks.call(position)
+    override fun onItemPress(pos: Int) = itemClicks.call(overviewAdapter.getItem(pos))
 
     override fun createView(ui: AnkoContext<OverviewActivity>) = with(ui) {
         overviewAdapter = adapterProvider.get()
 
         swipeRefreshLayout {
             this@OverviewUI.refreshView = this
-            post { isRefreshing = true } // Awaiting the initial data fetch
-            onRefresh {
-                refreshes.call(null)
-                isRefreshing = true
-            }
+            onRefresh { refreshes.call(Unit) }
 
             recyclerView {
                 lparams(width = matchParent, height = matchParent)
