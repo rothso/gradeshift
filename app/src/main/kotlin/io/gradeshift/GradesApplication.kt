@@ -2,6 +2,7 @@ package io.gradeshift
 
 import android.app.Application
 import com.facebook.stetho.Stetho
+import com.squareup.leakcanary.LeakCanary
 import timber.log.Timber
 
 class GradesApplication : Application() {
@@ -17,6 +18,8 @@ class GradesApplication : Application() {
             Timber.plant(Timber.DebugTree())
 
         Stetho.initializeWithDefaults(this)
+
+        LeakCanary.install(this)
 
         graph = DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this))

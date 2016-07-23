@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import com.artemzin.rxui.RxUi.ui
 import io.gradeshift.R
 import io.gradeshift.domain.model.Grade
-import io.gradeshift.ui.common.ext.ItemPressListener
+import io.gradeshift.ui.common.ItemPressListener
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
 import org.jetbrains.anko.support.v4.onRefresh

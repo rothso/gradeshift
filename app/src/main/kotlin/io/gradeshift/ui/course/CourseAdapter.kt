@@ -6,8 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import io.gradeshift.R
 import io.gradeshift.domain.model.Grade
-import io.gradeshift.ui.common.ext.ItemPressListener
-import io.gradeshift.ui.common.ext.withItemPressListener
+import io.gradeshift.ui.common.ItemPressListener
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import javax.inject.Inject
@@ -21,8 +20,9 @@ class CourseAdapter @Inject constructor(val listener: ItemPressListener) : Recyc
         }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(CourseUI.Item().createView(AnkoContext.create(parent.context, parent)))
-                .withItemPressListener(listener)
+        return ViewHolder(CourseUI.Item().createView(AnkoContext.create(parent.context, parent))).apply {
+            itemView.setOnClickListener { listener.onItemPress(adapterPosition) }
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
