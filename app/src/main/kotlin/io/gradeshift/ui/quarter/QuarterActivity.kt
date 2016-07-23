@@ -3,9 +3,6 @@ package io.gradeshift.ui.quarter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.app.NavUtils
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
@@ -14,7 +11,6 @@ import io.gradeshift.domain.model.Course
 import io.gradeshift.domain.model.CourseParcel
 import io.gradeshift.domain.model.Quarter
 import io.gradeshift.domain.model.QuarterParcel
-import io.gradeshift.ui.course.CourseFragment
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.setContentView
 import javax.inject.Inject
@@ -57,7 +53,7 @@ class QuarterActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // ViewPager
-        val adapter = ViewPagerAdapter(courses, supportFragmentManager)
+        val adapter = CoursePagerAdapter(this, courses)
         ui.viewPager.adapter = adapter
         ui.viewPager.currentItem = selectedCourseIndex
 
@@ -72,24 +68,6 @@ class QuarterActivity : AppCompatActivity() {
                 true
             }
             else -> super.onOptionsItemSelected(item)
-        }
-    }
-
-    class ViewPagerAdapter(
-            private val courses: List<Course>,
-            fm: FragmentManager
-    ) : FragmentPagerAdapter(fm) {
-
-        override fun getItem(position: Int): Fragment {
-            return CourseFragment.newInstance(courses[position])
-        }
-
-        override fun getCount(): Int {
-            return courses.size
-        }
-
-        override fun getPageTitle(position: Int): CharSequence {
-            return courses[position].name
         }
     }
 }

@@ -20,14 +20,14 @@ import javax.inject.Provider
 
 class CourseUI(
         val adapterProvider: Provider<CourseAdapter>
-) : AnkoComponent<CourseFragment>, CoursePresenter.View, ItemPressListener {
+) : AnkoComponent<CourseView>, CoursePresenter.View, ItemPressListener {
 
     lateinit var CourseAdapter: CourseAdapter
 
     override val showGrades = ui<List<Grade>> { CourseAdapter.grades = it }
     override fun onItemPress(position: Int) = Timber.i("Pressed item $position")
 
-    override fun createView(ui: AnkoContext<CourseFragment>) = with(ui) {
+    override fun createView(ui: AnkoContext<CourseView>) = with(ui) {
         CourseAdapter = adapterProvider.get()
 
         swipeRefreshLayout {
