@@ -21,6 +21,10 @@ import javax.inject.Inject
 
 class QuarterActivity : AppCompatActivity() {
     @Inject lateinit var ui: QuarterUI
+    private lateinit var graph: QuarterComponent
+
+    val component: QuarterComponent
+        get() = graph
 
     companion object {
         private const val COURSES: String = "COURSES"
@@ -43,7 +47,7 @@ class QuarterActivity : AppCompatActivity() {
         val courses = intent.getParcelableArrayListExtra<CourseParcel>(COURSES).map { it.data }
         val selectedCourseIndex = intent.getIntExtra(SELECTED_COURSE_INDEX, -1)
 
-        val graph = GradesApplication.graph.plus(QuarterModule(Quarter.DUMMY_QUARTER))
+        graph = GradesApplication.graph.plus(QuarterModule(Quarter.DUMMY_QUARTER))
         graph.inject(this)
         ui.setContentView(this)
 
@@ -53,7 +57,7 @@ class QuarterActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // ViewPager
-        val adapter = ViewPagerAdapter(courses, graph, supportFragmentManager)
+        val adapter = ViewPagerAdapter(courses, supportFragmentManager)
         ui.viewPager.adapter = adapter
         ui.viewPager.currentItem = selectedCourseIndex
 
@@ -73,12 +77,11 @@ class QuarterActivity : AppCompatActivity() {
 
     class ViewPagerAdapter(
             private val courses: List<Course>,
-            private val graph: QuarterComponent,
             fm: FragmentManager
     ) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
-            return CourseFragment.newInstance(courses[position], graph)
+            return CourseFragment.newInstance(courses[position])
         }
 
         override fun getCount(): Int {

@@ -38,6 +38,7 @@ abstract class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigation
     }
 
     override fun setContentView(view: View) {
+        // TODO use ViewContainer indirection with a root ViewGroup
         if (parentView == null) {
             super.setContentView(view)
         } else {
