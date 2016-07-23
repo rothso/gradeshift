@@ -2,26 +2,40 @@ package io.gradeshift.ui.overview
 
 import dagger.Module
 import dagger.Provides
-import io.gradeshift.domain.OverviewInteractor
+import io.gradeshift.data.GradeRepository
+import io.gradeshift.domain.GetQuarterCoursesInteractor
+import io.gradeshift.domain.model.Quarter
 import io.gradeshift.ui.common.ActivityScope
 import javax.inject.Provider
 
 @Module
-class OverviewModule(val context: OverviewActivity) {
+class OverviewModule(
+        private val context: OverviewActivity,
+        private val currentQuarter: Quarter // Hard-scope to a quarter until we add hotswap fragments
+) {
 
     @Provides @ActivityScope
-    fun provideNavigator(): Navigator = Navigator(context)
+    fun provideNavigator(): Navigator {
+        return Navigator(context, currentQuarter)
+    }
 
     @Provides @ActivityScope
-    fun provideAdapter(listener: OverviewUI): OverviewAdapter = OverviewAdapter(listener)
+    fun provideAdapter(listener: OverviewUI): OverviewAdapter {
+        return OverviewAdapter(listener)
+    }
 
     @Provides @ActivityScope
-    fun provideUI(a: Provider<OverviewAdapter>, n: Navigator): OverviewUI = OverviewUI(a, n)
+    fun provideUI(adapter: Provider<OverviewAdapter>, navigator: Navigator): OverviewUI {
+        return OverviewUI(adapter, navigator)
+    }
+
+    // TODO [0.x] pass a (maybe) quarter-scoped data store instead
+    @Provides @ActivityScope
+    fun provideInteractor(repository: GradeRepository): GetQuarterCoursesInteractor {
+        return GetQuarterCoursesInteractor(repository)
+    }
 
     @Provides @ActivityScope
-    fun provideInteractor(): OverviewInteractor = OverviewInteractor()
-
-    @Provides @ActivityScope
-    fun providePresenter(i: OverviewInteractor): OverviewPresenter = OverviewPresenter(i)
+    fun providePresenter(i: GetQuarterCoursesInteractor): OverviewPresenter = OverviewPresenter(i)
 
 }

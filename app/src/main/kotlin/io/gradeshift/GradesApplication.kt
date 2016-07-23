@@ -16,9 +16,11 @@ class GradesApplication : Application() {
         if(BuildConfig.DEBUG)
             Timber.plant(Timber.DebugTree())
 
-        Stetho.initializeWithDefaults(this);
+        Stetho.initializeWithDefaults(this)
 
-        graph = DaggerApplicationComponent.builder().build()
+        graph = DaggerApplicationComponent.builder()
+                .applicationModule(ApplicationModule(this))
+                .build()
         Timber.d("Dagger graph initialized", graph)
     }
 }

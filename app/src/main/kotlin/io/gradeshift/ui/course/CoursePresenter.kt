@@ -1,8 +1,8 @@
-package io.gradeshift.ui.period
+package io.gradeshift.ui.course
 
 import com.artemzin.rxui.kotlin.bind
-import io.gradeshift.domain.QuarterGradesInteractor
-import io.gradeshift.model.Grade
+import io.gradeshift.domain.GetCourseGradesInteractor
+import io.gradeshift.domain.model.Grade
 import io.gradeshift.ui.common.base.Presenter
 import rx.Observable
 import rx.Subscription
@@ -10,13 +10,12 @@ import rx.functions.Func1
 import rx.lang.kotlin.plusAssign
 import rx.subscriptions.CompositeSubscription
 
-// TODO make sure I'm scoped to the current period
-class PeriodPresenter(val interactor: QuarterGradesInteractor) : Presenter<PeriodPresenter.View>() {
+class CoursePresenter(val interactor: GetCourseGradesInteractor) : Presenter<CoursePresenter.View>() {
 
     override fun bind(view: View): Subscription {
         val subscription = CompositeSubscription()
 
-        subscription += interactor.getCurrentQuarterGrades()
+        subscription += interactor.getCourseGrades()
             .bind(view.showGrades)
 
         return subscription

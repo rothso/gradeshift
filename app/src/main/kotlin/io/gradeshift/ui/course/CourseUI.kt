@@ -1,4 +1,4 @@
-package io.gradeshift.ui.period
+package io.gradeshift.ui.course
 
 import android.graphics.Typeface
 import android.support.v7.widget.DefaultItemAnimator
@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.artemzin.rxui.RxUi.ui
 import io.gradeshift.R
-import io.gradeshift.model.Grade
+import io.gradeshift.domain.model.Grade
 import io.gradeshift.ui.common.ext.ItemPressListener
 import org.jetbrains.anko.*
 import org.jetbrains.anko.recyclerview.v7.recyclerView
@@ -18,17 +18,17 @@ import org.jetbrains.anko.support.v4.swipeRefreshLayout
 import timber.log.Timber
 import javax.inject.Provider
 
-class PeriodUI(
-        val adapterProvider: Provider<PeriodAdapter>
-) : AnkoComponent<PeriodFragment>, PeriodPresenter.View, ItemPressListener {
+class CourseUI(
+        val adapterProvider: Provider<CourseAdapter>
+) : AnkoComponent<CourseFragment>, CoursePresenter.View, ItemPressListener {
 
-    lateinit var periodAdapter: PeriodAdapter
+    lateinit var CourseAdapter: CourseAdapter
 
-    override val showGrades = ui<List<Grade>> { periodAdapter.grades = it }
-    override fun onItemPress(pos: Int) = Timber.i("Pressed item $pos")
+    override val showGrades = ui<List<Grade>> { CourseAdapter.grades = it }
+    override fun onItemPress(position: Int) = Timber.i("Pressed item $position")
 
-    override fun createView(ui: AnkoContext<PeriodFragment>) = with(ui) {
-        periodAdapter = adapterProvider.get()
+    override fun createView(ui: AnkoContext<CourseFragment>) = with(ui) {
+        CourseAdapter = adapterProvider.get()
 
         swipeRefreshLayout {
             onRefresh {
@@ -41,7 +41,7 @@ class PeriodUI(
                 lparams(width = matchParent, height = matchParent)
                 layoutManager = LinearLayoutManager(ctx)
                 itemAnimator = DefaultItemAnimator()
-                adapter = periodAdapter
+                adapter = CourseAdapter
                 setHasFixedSize(true) // All views are the same height and width
             }
         }
@@ -60,7 +60,7 @@ class PeriodUI(
                         gravity = Gravity.CENTER_VERTICAL
                         weight = 1.0f
                     }
-                    id = R.id.period_class_grade_name
+                    id = R.id.course_grade_name
                     singleLine = true
                     ellipsize = TextUtils.TruncateAt.END
                     textSize = 16f
@@ -74,14 +74,14 @@ class PeriodUI(
                     gravity = Gravity.CENTER_HORIZONTAL
 
                     textView {
-                        id = R.id.period_class_grade_points_earned
+                        id = R.id.course_grade_points_earned
                         textSize = 16f
                     }
                     textView("/") {
                         textSize = 16f
                     }
                     textView {
-                        id = R.id.period_class_grade_points_possible
+                        id = R.id.course_grade_points_possible
                         textSize = 16f
                     }
                 }
@@ -91,7 +91,7 @@ class PeriodUI(
                         gravity = Gravity.CENTER_VERTICAL
                         marginStart = dip(8)
                     }
-                    id = R.id.period_grade_score
+                    id = R.id.course_grade_score
                     textSize = 16f
                     typeface = Typeface.create(typeface, Typeface.BOLD)
                     gravity = Gravity.CENTER_HORIZONTAL

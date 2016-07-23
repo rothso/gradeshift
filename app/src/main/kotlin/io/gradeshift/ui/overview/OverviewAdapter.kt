@@ -5,16 +5,21 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import io.gradeshift.R
-import io.gradeshift.model.Class
+import io.gradeshift.domain.model.Course
 import io.gradeshift.ui.common.ext.ItemPressListener
 import io.gradeshift.ui.common.ext.withItemPressListener
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.find
 import javax.inject.Inject
 
+/**
+ * TODO:
+ * http://stackoverflow.com/documentation/android/169/recyclerview/690/gridlayoutmanager-with-onclicklistener-and-dynamic-dataset
+ * http://stackoverflow.com/documentation/android/96/recyclerview-onclicklisteners/432/kotlin-and-rxjava-example
+ */
 class OverviewAdapter @Inject constructor(val listener: ItemPressListener) : RecyclerView.Adapter<OverviewAdapter.ViewHolder>() {
 
-    var classes: List<Class> = emptyList()
+    var courses: List<Course> = emptyList()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -26,18 +31,18 @@ class OverviewAdapter @Inject constructor(val listener: ItemPressListener) : Rec
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val grade = classes[position]
+        val grade = courses[position]
 
         holder.name.text = grade.name
         holder.score.text = grade.grade.toString() + "%"
     }
 
     override fun getItemCount(): Int {
-        return classes.size
+        return courses.size
     }
 
-    fun getItem(position: Int): Class {
-        return classes[position]
+    fun getItem(position: Int): Course {
+        return courses[position]
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {

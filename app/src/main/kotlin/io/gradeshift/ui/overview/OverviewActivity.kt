@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import io.gradeshift.GradesApplication
+import io.gradeshift.domain.model.Quarter
 import io.gradeshift.ui.common.drawer.DrawerActivity
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.setContentView
@@ -17,6 +18,9 @@ class OverviewActivity : DrawerActivity() {
     lateinit var subscription: Subscription
 
     companion object {
+        // TODO pass with intent, or assume somehow
+        private val CURRENT_QUARTER = Quarter.DUMMY_QUARTER
+
         fun intent(context: Context): Intent {
             return context.intentFor<OverviewActivity>().singleTop()
         }
@@ -24,7 +28,7 @@ class OverviewActivity : DrawerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        GradesApplication.graph.plus(OverviewModule(this)).inject(this)
+        GradesApplication.graph.plus(OverviewModule(this, CURRENT_QUARTER)).inject(this)
 
         ui.setContentView(this)
         subscription = presenter.bind(ui)

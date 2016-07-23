@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.jakewharton.rxrelay.PublishRelay
 import io.gradeshift.R
-import io.gradeshift.model.Class
+import io.gradeshift.domain.model.Course
 import io.gradeshift.ui.common.ext.ItemPressListener
 import io.gradeshift.ui.common.ext.ui
 import org.jetbrains.anko.*
@@ -27,13 +27,13 @@ class OverviewUI @Inject constructor(
     private lateinit var overviewAdapter: OverviewAdapter
     private lateinit var refreshView: SwipeRefreshLayout
 
-    override val itemClicks: PublishRelay<Class> = PublishRelay.create()
+    override val itemClicks: PublishRelay<Int> = PublishRelay.create()
     override val refreshes: PublishRelay<Unit> = PublishRelay.create()
-    override val showClassDetail = ui<Class> { navigator.showClass(it.id) }
-    override val showClasses = ui<List<Class>> { overviewAdapter.classes = it }
+    override val showCourseDetail = ui<Pair<Int, List<Course>>> { pair ->
+        navigator.showCourse(pair.first, pair.second)
+    }
+    override val showCourses = ui<List<Course>> { overviewAdapter.courses = it }
     override val loading = ui<Boolean> { refreshView.isRefreshing = it }
-
-    override fun onItemPress(pos: Int) = itemClicks.call(overviewAdapter.getItem(pos))
 
     override fun createView(ui: AnkoContext<OverviewActivity>) = with(ui) {
         overviewAdapter = adapterProvider.get()
@@ -53,6 +53,11 @@ class OverviewUI @Inject constructor(
         }
     }
 
+    override fun onItemPress(position: Int) {
+        return itemClicks.call(position)
+    }
+
+    // TODO move inside Adapter, clean up
     class Item : AnkoComponent<ViewGroup> {
 
         override fun createView(ui: AnkoContext<ViewGroup>) = with(ui) {

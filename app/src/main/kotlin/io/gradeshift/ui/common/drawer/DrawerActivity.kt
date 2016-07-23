@@ -35,7 +35,6 @@ abstract class DrawerActivity : AppCompatActivity(), NavigationView.OnNavigation
 
         // Navigation Guts
         ui.navigationView.setNavigationItemSelectedListener(this)
-        // TODO dagger inject
     }
 
     override fun setContentView(view: View) {

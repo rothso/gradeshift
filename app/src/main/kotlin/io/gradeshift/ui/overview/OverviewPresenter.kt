@@ -1,7 +1,8 @@
 package io.gradeshift.ui.overview
 
-import io.gradeshift.domain.OverviewInteractor
-import io.gradeshift.model.Class
+import io.gradeshift.domain.GetQuarterCoursesInteractor
+import io.gradeshift.domain.model.Course
+import io.gradeshift.domain.model.Quarter
 import io.gradeshift.ui.common.base.Presenter
 import io.gradeshift.ui.common.ext.bind
 import rx.Observable
@@ -9,7 +10,7 @@ import rx.Subscription
 import rx.lang.kotlin.plusAssign
 import rx.subscriptions.CompositeSubscription
 
-class OverviewPresenter(val interactor: OverviewInteractor) : Presenter<OverviewPresenter.View>() {
+class OverviewPresenter(val interactor: GetQuarterCoursesInteractor) : Presenter<OverviewPresenter.View>() {
 
     override fun bind(view: View): Subscription {
         val subscription = CompositeSubscription()
@@ -17,37 +18,34 @@ class OverviewPresenter(val interactor: OverviewInteractor) : Presenter<Overview
         val refreshes: Observable<Unit> = view.refreshes.share()
                 .startWith(Unit) // Trigger initial load
 
-        val classes: Observable<List<Class>> = refreshes
-                .switchMap { interactor.getClasses() }
+        val courses: Observable<List<Course>> = refreshes
+                .switchMap { interactor.getCourses(Quarter.DUMMY_QUARTER) }
                 .share()
 
         // Loading and done loading
-        subscription += refreshes
-                .map { true }
-                .bind(view.loading)
-        subscription += classes
-                .map { false }
-                .bind(view.loading)
+        subscription += refreshes.map { true }.bind(view.loading)
+        subscription += courses.map { false }.bind(view.loading)
 
         // Content updates
-        subscription += classes
+        subscription += courses
                 .distinctUntilChanged()
-                .bind(view.showClasses)
+                .bind(view.showCourses)
         subscription += view.itemClicks
                 .onBackpressureLatest()
-                .bind(view.showClassDetail)
+                .withLatestFrom(courses, {i, xs -> Pair(i, xs)})
+                .bind(view.showCourseDetail)
 
         // TODO handle network, etc. errors with onErrorReturn
         return subscription
     }
 
     interface View {
-        val itemClicks: Observable<Class>
+        val itemClicks: Observable<Int>
         val refreshes: Observable<Unit>
 
         // Replace with a type alias when those puppies come out
-        val showClasses: (Observable<List<Class>>) -> Subscription
-        val showClassDetail: (Observable<Class>) -> Subscription
+        val showCourses: (Observable<List<Course>>) -> Subscription
+        val showCourseDetail: (Observable<Pair<Int, List<Course>>>) -> Subscription
         val loading: (Observable<Boolean>) -> Subscription
     }
 }

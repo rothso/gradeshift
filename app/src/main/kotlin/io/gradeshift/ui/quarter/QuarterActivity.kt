@@ -9,21 +9,29 @@ import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.app.NavUtils
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import io.gradeshift.ui.period.PeriodFragment
+import io.gradeshift.GradesApplication
+import io.gradeshift.domain.model.Course
+import io.gradeshift.domain.model.CourseParcel
+import io.gradeshift.domain.model.Quarter
+import io.gradeshift.domain.model.QuarterParcel
+import io.gradeshift.ui.course.CourseFragment
 import org.jetbrains.anko.intentFor
 import org.jetbrains.anko.setContentView
+import javax.inject.Inject
 
 class QuarterActivity : AppCompatActivity() {
-    lateinit var ui: QuarterUI
+    @Inject lateinit var ui: QuarterUI
 
     companion object {
-        const val EXTRA_QUARTER_NAME: String = "QUARTER_NAME" // TODO replace with an ID, maybe.
-        const val EXTRA_SELECTED_CLASS_ID: String = "CLASS_ID"
+        private const val COURSES: String = "COURSES"
+        private const val QUARTER: String = "SELECTED_QUARTER"
+        private const val SELECTED_COURSE_INDEX: String = "SELECTED_COURSE"
 
-        fun intent(context: Context, selectedClassId: Int, quarterName: String): Intent {
-            return context.intentFor<QuarterActivity>(
-                    EXTRA_QUARTER_NAME to quarterName,
-                    EXTRA_SELECTED_CLASS_ID to selectedClassId
+        fun intent(ctx: Context, courses: List<Course>, ofQuarter: Quarter, selectedCourseIndex: Int): Intent {
+            return ctx.intentFor<QuarterActivity>(
+                    COURSES to courses.map { CourseParcel(it) },
+                    QUARTER to QuarterParcel(ofQuarter),
+                    SELECTED_COURSE_INDEX to selectedCourseIndex
             )
         }
     }
@@ -31,20 +39,23 @@ class QuarterActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val quarterName = intent.getStringExtra(EXTRA_QUARTER_NAME)
-        val selectedClassId = intent.getIntExtra(EXTRA_SELECTED_CLASS_ID, -1)
+        val quarter = intent.getParcelableExtra<QuarterParcel>(QUARTER).data
+        val courses = intent.getParcelableArrayListExtra<CourseParcel>(COURSES).map { it.data }
+        val selectedCourseIndex = intent.getIntExtra(SELECTED_COURSE_INDEX, -1)
 
-        ui = QuarterUI()
+        val graph = GradesApplication.graph.plus(QuarterModule(Quarter.DUMMY_QUARTER))
+        graph.inject(this)
         ui.setContentView(this)
 
         // Toolbar
         setSupportActionBar(ui.toolbar)
-        supportActionBar?.title = quarterName
+        supportActionBar?.title = quarter.name
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         // ViewPager
-        val adapter = ViewPagerAdapter(supportFragmentManager, selectedClassId)
+        val adapter = ViewPagerAdapter(courses, graph, supportFragmentManager)
         ui.viewPager.adapter = adapter
+        ui.viewPager.currentItem = selectedCourseIndex
 
         // TabLayout
         ui.tabLayout.setupWithViewPager(ui.viewPager)
@@ -61,20 +72,21 @@ class QuarterActivity : AppCompatActivity() {
     }
 
     class ViewPagerAdapter(
-            // TODO this would be where we pass that QuarterID that we surely need
-            fm: FragmentManager,
-            val selectedClassId: Int
+            private val courses: List<Course>,
+            private val graph: QuarterComponent,
+            fm: FragmentManager
     ) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
-            // TODO create fragments only once
-            return PeriodFragment.newInstance(selectedClassId)
+            return CourseFragment.newInstance(courses[position], graph)
         }
 
-        override fun getCount(): Int = 8
+        override fun getCount(): Int {
+            return courses.size
+        }
 
         override fun getPageTitle(position: Int): CharSequence {
-            return "Tab $position"
+            return courses[position].name
         }
     }
 }

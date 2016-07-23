@@ -1,12 +1,17 @@
 package io.gradeshift.ui.overview
 
 import android.content.Context
-import io.gradeshift.ui.period.PeriodFragment
+import io.gradeshift.domain.model.Course
+import io.gradeshift.domain.model.Quarter
 import io.gradeshift.ui.quarter.QuarterActivity
 
-class Navigator(val context: Context) {
+class Navigator(
+        private val context: Context,
+        private val currentQuarter: Quarter
+) {
 
-    fun showClass(classId: Int) {
-        context.startActivity(QuarterActivity.intent(context, classId, "Quarter 5"))
+    fun showCourse(selectedCourseIndex: Int, courses: List<Course>) {
+        val intent = QuarterActivity.intent(context, courses, currentQuarter, selectedCourseIndex)
+        context.startActivity(intent)
     }
 }
