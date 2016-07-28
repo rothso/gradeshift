@@ -3,7 +3,6 @@ package io.gradeshift.ui.overview
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import com.jakewharton.rxrelay.PublishRelay
 import io.gradeshift.R
 import io.gradeshift.domain.model.Course

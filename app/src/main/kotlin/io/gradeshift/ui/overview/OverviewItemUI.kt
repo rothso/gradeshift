@@ -27,7 +27,7 @@ class OverviewItemUI : AnkoComponent<ViewGroup> {
                     gravity = Gravity.CENTER_VERTICAL
                     weight = 1.0f
                 }
-                id = ID_COURSE_GRADE
+                id = ID_COURSE_NAME
                 singleLine = true
                 ellipsize = TextUtils.TruncateAt.END
                 textSize = 16f
@@ -38,7 +38,7 @@ class OverviewItemUI : AnkoComponent<ViewGroup> {
                     gravity = Gravity.CENTER_VERTICAL
                     marginStart = dip(8)
                 }
-                id = ID_COURSE_NAME
+                id = ID_COURSE_GRADE
                 textSize = 16f
                 typeface = Typeface.create(typeface, Typeface.BOLD)
                 gravity = Gravity.CENTER_HORIZONTAL
