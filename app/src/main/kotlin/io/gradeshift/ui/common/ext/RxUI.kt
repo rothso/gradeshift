@@ -36,5 +36,6 @@ fun <T> Observable<T>.bind(uiFunc: (Observable<T>) -> Subscription): Subscriptio
 fun <T> ui(onNext: (T) -> Unit): (Observable<T>) -> Subscription = {
     it.observeOn(AndroidSchedulers.mainThread()).subscribeWith {
         onNext(onNext)
+        onError { it.printStackTrace() }
     }
 }

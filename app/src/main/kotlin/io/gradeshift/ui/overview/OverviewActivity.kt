@@ -28,7 +28,7 @@ class OverviewActivity : DrawerActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        GradesApplication.graph.plus(OverviewModule(this, CURRENT_QUARTER)).inject(this)
+        GradesApplication.userGraph.plus(OverviewModule(this, CURRENT_QUARTER)).inject(this)
 
         ui.setContentView(this)
         subscription = presenter.bind(ui)

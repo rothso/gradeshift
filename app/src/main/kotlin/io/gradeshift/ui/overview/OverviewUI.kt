@@ -3,6 +3,7 @@ package io.gradeshift.ui.overview
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import com.jakewharton.rxbinding.support.v4.widget.refreshes
 import com.jakewharton.rxrelay.PublishRelay
 import io.gradeshift.R
 import io.gradeshift.domain.model.Course
@@ -12,8 +13,8 @@ import org.jetbrains.anko.AnkoComponent
 import org.jetbrains.anko.AnkoContext
 import org.jetbrains.anko.matchParent
 import org.jetbrains.anko.recyclerview.v7.recyclerView
-import org.jetbrains.anko.support.v4.onRefresh
 import org.jetbrains.anko.support.v4.swipeRefreshLayout
+import rx.Observable
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -25,7 +26,7 @@ class OverviewUI @Inject constructor(
     private lateinit var refreshView: SwipeRefreshLayout
 
     override val itemClicks: PublishRelay<Int> = PublishRelay.create()
-    override val refreshes: PublishRelay<Unit> = PublishRelay.create()
+    override val refreshes: Observable<Unit> by lazy { refreshView.refreshes() }
     override val showCourseDetail = ui<Pair<Int, List<Course>>> { pair ->
         navigator.showCourse(pair.first, pair.second)
     }
@@ -37,7 +38,6 @@ class OverviewUI @Inject constructor(
 
         swipeRefreshLayout {
             this@OverviewUI.refreshView = this
-            onRefresh { refreshes.call(Unit) }
 
             recyclerView {
                 lparams(width = matchParent, height = matchParent)

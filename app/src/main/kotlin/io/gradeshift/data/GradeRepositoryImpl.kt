@@ -1,18 +1,17 @@
 package io.gradeshift.data
 
+import io.gradeshift.data.network.api.GradesApi
 import io.gradeshift.domain.model.Course
 import io.gradeshift.domain.model.Grade
 import io.gradeshift.domain.model.Quarter
+import io.gradeshift.domain.model.Year
 import rx.Observable
 import rx.schedulers.Schedulers
-import java.util.concurrent.TimeUnit
 
-class GradeRepositoryImpl : GradeRepository {
+class GradeRepositoryImpl(val gradesApi: GradesApi) : GradeRepository {
 
     override fun getCoursesByQuarter(quarter: Quarter): Observable<List<Course>> {
-        return Observable.defer { Observable.just(Course.DUMMY_COURSES) }
-                .delay(2, TimeUnit.SECONDS)
-                .subscribeOn(Schedulers.io())
+        return gradesApi.getCourses(Year.DUMMY_YEAR, quarter)
     }
 
     override fun getGradesByCourse(course: Course, inQuarter: Quarter): Observable<List<Grade>> {

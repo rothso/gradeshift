@@ -8,6 +8,6 @@ data class Quarter(
         val name: String
 ) {
     companion object {
-        val DUMMY_QUARTER: Quarter = Quarter(1, "1")
+        val DUMMY_QUARTER: Quarter = Quarter(0, "Quarter")
     }
 }

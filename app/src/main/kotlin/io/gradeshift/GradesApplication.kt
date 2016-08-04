@@ -3,27 +3,34 @@ package io.gradeshift
 import android.app.Application
 import com.facebook.stetho.Stetho
 import com.squareup.leakcanary.LeakCanary
+import io.gradeshift.data.network.auth.User
+import io.gradeshift.data.network.auth.UserComponent
+import io.gradeshift.data.network.auth.UserModule
 import timber.log.Timber
 
 class GradesApplication : Application() {
 
     companion object {
-        @JvmStatic lateinit var graph: ApplicationComponent
+        lateinit var graph: ApplicationComponent
+        lateinit var userGraph: UserComponent
     }
 
     override fun onCreate() {
         super.onCreate()
 
-        if(BuildConfig.DEBUG)
+        // Debugging tools
+        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-
-        Stetho.initializeWithDefaults(this)
-
-        LeakCanary.install(this)
+            Stetho.initializeWithDefaults(this)
+            LeakCanary.install(this)
+        }
 
         graph = DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this))
                 .build()
+
+        userGraph = graph.plus(UserModule(User.DUMMY_USER))
+
         Timber.d("Dagger graph initialized", graph)
     }
 }

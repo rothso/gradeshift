@@ -9,13 +9,16 @@ import rx.Observable
 import rx.Subscription
 import rx.lang.kotlin.plusAssign
 import rx.subscriptions.CompositeSubscription
+import timber.log.Timber
 
 class OverviewPresenter(val interactor: GetQuarterCoursesInteractor) : Presenter<OverviewPresenter.View>() {
 
     override fun bind(view: View): Subscription {
         val subscription = CompositeSubscription()
 
-        val refreshes: Observable<Unit> = view.refreshes.share()
+        val refreshes: Observable<Unit> = view.refreshes
+                .doOnNext { Timber.d("Refreshing!") }
+                .share()
                 .startWith(Unit) // Trigger initial load
 
         val courses: Observable<List<Course>> = refreshes
@@ -23,8 +26,8 @@ class OverviewPresenter(val interactor: GetQuarterCoursesInteractor) : Presenter
                 .share()
 
         // Loading and done loading
-        subscription += refreshes.map { true }.bind(view.loading)
-        subscription += courses.map { false }.bind(view.loading)
+        subscription += refreshes.map { true }.doOnNext { Timber.d("Loading") }.bind(view.loading)
+        subscription += courses.map { false }.doOnNext { Timber.d("Done loading") }.bind(view.loading)
 
         // Content updates
         subscription += courses

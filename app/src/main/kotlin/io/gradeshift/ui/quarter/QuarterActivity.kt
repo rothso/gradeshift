@@ -43,7 +43,7 @@ class QuarterActivity : AppCompatActivity() {
         val courses = intent.getParcelableArrayListExtra<CourseParcel>(COURSES).map { it.data }
         val selectedCourseIndex = intent.getIntExtra(SELECTED_COURSE_INDEX, -1)
 
-        graph = GradesApplication.graph.plus(QuarterModule(Quarter.DUMMY_QUARTER))
+        graph = GradesApplication.userGraph.plus(QuarterModule(Quarter.DUMMY_QUARTER))
         graph.inject(this)
         ui.setContentView(this)
 

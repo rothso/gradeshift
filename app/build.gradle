@@ -3,7 +3,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion "24.0.1"
     defaultConfig {
         applicationId "io.gradeshift"
         minSdkVersion 19
@@ -36,10 +36,14 @@ dependencies {
     compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha4'
     compile 'com.android.support:design:24.1.1'
+
+    // Testing
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.android.support.test.espresso:espresso-core:2.2.2'
     androidTestCompile 'com.android.support.test:runner:0.5'
     androidTestCompile 'com.android.support:support-annotations:24.1.1'
+
+    // Kotlin
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     // Debugging, etc.
@@ -61,6 +65,11 @@ dependencies {
     compile 'com.jakewharton.rxrelay:rxrelay:1.1.0'
     compile 'com.artemzin.rxui:rxui:1.0.1'
     compile 'com.artemzin.rxui:rxui-kotlin:1.0.1'
+    compile 'com.jakewharton.rxbinding:rxbinding-kotlin:0.4.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-support-v4-kotlin:0.4.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-appcompat-v7-kotlin:0.4.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-design-kotlin:0.4.0'
+    compile 'com.jakewharton.rxbinding:rxbinding-recyclerview-v7-kotlin:0.4.0'
 
     // Anko
     compile 'org.jetbrains.anko:anko-sdk19:0.9'
@@ -73,4 +82,17 @@ dependencies {
     compile 'com.github.grandstaish.paperparcel:paperparcel:1.0.0'
     compile 'com.github.grandstaish.paperparcel:paperparcel-kotlin:1.0.0'
     kapt 'com.github.grandstaish.paperparcel:compiler:1.0.0'
+
+    // Networking
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+
+    // Jsouper
+    compile 'com.ekchang.jsouper:jsouper:0.0.3-SNAPSHOT'
+    compile 'com.ekchang.jsouper:retrofit-converter-jsouper:0.0.3-SNAPSHOT'
+    compile 'org.jsoup:jsoup:1.9.2'
+
+    // Authentication
+    compile 'com.google.android.gms:play-services-auth:9.2.1'
 }

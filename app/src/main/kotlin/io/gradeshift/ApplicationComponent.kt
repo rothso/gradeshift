@@ -1,19 +1,20 @@
 package io.gradeshift
 
 import dagger.Component
+import io.gradeshift.data.network.NetworkModule
+import io.gradeshift.data.network.auth.UserComponent
+import io.gradeshift.data.network.auth.UserModule
+import io.gradeshift.data.network.provider.focus.FocusModule
 import io.gradeshift.ui.main.MainComponent
 import io.gradeshift.ui.main.MainModule
-import io.gradeshift.ui.overview.OverviewComponent
-import io.gradeshift.ui.overview.OverviewModule
-import io.gradeshift.ui.quarter.QuarterComponent
-import io.gradeshift.ui.quarter.QuarterModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = arrayOf(ApplicationModule::class))
+@Component(modules = arrayOf(
+        ApplicationModule::class,
+        FocusModule::class,
+        NetworkModule::class))
 interface ApplicationComponent {
+    fun plus(userModule: UserModule): UserComponent
     fun plus(mainModule: MainModule): MainComponent
-    fun plus(overviewModule: OverviewModule): OverviewComponent
-    fun plus(quarterModule: QuarterModule): QuarterComponent
 }
-
