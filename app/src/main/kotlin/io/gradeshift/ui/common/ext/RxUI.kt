@@ -4,6 +4,7 @@ import rx.Observable
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.lang.kotlin.subscribeWith
+import timber.log.Timber
 
 /**
  * MIT License
@@ -36,6 +37,6 @@ fun <T> Observable<T>.bind(uiFunc: (Observable<T>) -> Subscription): Subscriptio
 fun <T> ui(onNext: (T) -> Unit): (Observable<T>) -> Subscription = {
     it.observeOn(AndroidSchedulers.mainThread()).subscribeWith {
         onNext(onNext)
-        onError { it.printStackTrace() }
+        onError { Timber.e(it, null) }
     }
 }

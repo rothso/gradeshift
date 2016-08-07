@@ -10,15 +10,12 @@ class PendingResultObservable private constructor() {
 
     companion object {
         fun <R : Result> from(pendingResult: PendingResult<R>): Observable<R> {
-            val generator = { pendingResult }
-            val next = { result: PendingResult<R>, subscriber: Observer<in R> ->
-                result.setResultCallback {
-                    subscriber.onNext(it)
-                    subscriber.onCompleted()
-                }
+            val next = { subscriber: Observer<in R> ->
+                subscriber.onNext(pendingResult.await())
+                subscriber.onCompleted()
             }
-            val unsubscribe = { result: PendingResult<R> -> result.cancel() }
-            return Observable.create(SyncOnSubscribe.createSingleState(generator, next, unsubscribe))
+            val unsubscribe = { pendingResult.cancel() }
+            return Observable.create(SyncOnSubscribe.createStateless(next, unsubscribe))
         }
     }
 }

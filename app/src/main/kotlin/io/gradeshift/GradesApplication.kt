@@ -2,6 +2,7 @@ package io.gradeshift
 
 import android.app.Application
 import com.facebook.stetho.Stetho
+import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
 import io.gradeshift.data.network.auth.User
 import io.gradeshift.data.network.auth.UserComponent
@@ -17,6 +18,9 @@ class GradesApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        // Java 8 Time
+        AndroidThreeTen.init(this)
 
         // Debugging tools
         if (BuildConfig.DEBUG) {

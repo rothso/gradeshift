@@ -1,7 +1,7 @@
 package io.gradeshift.data.network.auth
 
-import javax.inject.Scope
+import javax.inject.Qualifier
 
-@Scope
+@Qualifier
 @Retention(AnnotationRetention.RUNTIME)
-annotation class UserScope
+annotation class Authenticated

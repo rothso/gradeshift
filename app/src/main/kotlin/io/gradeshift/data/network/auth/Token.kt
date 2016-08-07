@@ -1,10 +1,11 @@
 package io.gradeshift.data.network.auth
 
-import java.util.*
+import org.threeten.bp.Instant
+import org.threeten.bp.temporal.ChronoUnit
 
-data class Token(val value: Int, val expires: Calendar) {
+data class Token(val value: String, val expiry: Instant) {
 
     companion object {
-        val DUMMY_TOKEN = Token(0, GregorianCalendar.getInstance())
+        val DUMMY_TOKEN = Token("", Instant.now().plus(30, ChronoUnit.MINUTES))
     }
 }
