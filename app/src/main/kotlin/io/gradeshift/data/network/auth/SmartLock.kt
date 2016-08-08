@@ -12,13 +12,15 @@ import io.gradeshift.data.network.auth.exception.LoginRequiredException
 import io.gradeshift.data.network.auth.exception.ResolutionRequiredException
 import io.gradeshift.data.util.PendingResultObservable
 import rx.Observable
-import javax.inject.Provider
 
-class SmartLock(private val googleApiClient: Provider<GoogleApiClient>, private val identity: String) {
+class SmartLock(
+        private val gac: GoogleApiClient,
+        private val identity: String
+) {
 
     @RxLogObservable
     fun getCredentials(): Observable<Credential> {
-        val request = Auth.CredentialsApi.request(googleApiClient.get(), buildCredentialRequest())
+        val request = Auth.CredentialsApi.request(gac, buildCredentialRequest())
         return PendingResultObservable.from(request).map { result ->
             when (result.status.statusCode) {
                 SUCCESS or SUCCESS_CACHE -> {

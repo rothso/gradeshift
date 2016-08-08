@@ -13,6 +13,8 @@ import javax.inject.Singleton
         ApplicationModule::class,
         FocusModule::class))
 interface ApplicationComponent {
+    fun inject(application: GradesApplication)
+
     fun plus(userModule: UserModule): UserComponent
     fun plus(mainModule: MainModule): MainComponent
 }

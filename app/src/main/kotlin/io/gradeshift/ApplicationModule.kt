@@ -6,11 +6,11 @@ import android.content.SharedPreferences
 import dagger.Module
 import dagger.Provides
 import io.gradeshift.data.network.NetworkModule
-import io.gradeshift.data.network.google.GoogleModule
+import io.gradeshift.data.network.google.GacModule
 import org.jetbrains.anko.defaultSharedPreferences
 import javax.inject.Singleton
 
-@Module(includes = arrayOf(NetworkModule::class, GoogleModule::class))
+@Module(includes = arrayOf(NetworkModule::class, GacModule::class))
 class ApplicationModule(private val application: Application) {
 
     @Provides @Singleton

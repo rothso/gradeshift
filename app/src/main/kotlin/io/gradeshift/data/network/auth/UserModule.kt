@@ -7,7 +7,6 @@ import dagger.Provides
 import io.gradeshift.data.network.api.LoginApi
 import okhttp3.OkHttpClient
 import javax.inject.Named
-import javax.inject.Provider
 
 @Module
 class UserModule(private val user: User) {
@@ -16,7 +15,7 @@ class UserModule(private val user: User) {
     fun provideUser(): User = user
 
     @Provides @UserScope
-    fun provideSmartLock(googleApiClient: Provider<GoogleApiClient>, @Named("Identity") identity: String): SmartLock {
+    fun provideSmartLock(googleApiClient: GoogleApiClient, @Named("Identity") identity: String): SmartLock {
         return SmartLock(googleApiClient, identity)
     }
 
