@@ -3,6 +3,7 @@ package io.gradeshift.ui.overview
 import android.content.Context
 import io.gradeshift.domain.model.Course
 import io.gradeshift.domain.model.Quarter
+import io.gradeshift.ui.login.LoginActivity
 import io.gradeshift.ui.quarter.QuarterActivity
 
 class Navigator(
@@ -10,8 +11,11 @@ class Navigator(
         private val currentQuarter: Quarter
 ) {
 
-    fun showCourse(selectedCourseIndex: Int, courses: List<Course>) {
-        val intent = QuarterActivity.intent(context, courses, currentQuarter, selectedCourseIndex)
-        context.startActivity(intent)
+    fun showCourse(selectedCourseIndex: Int, courses: List<Course>) = with(context) {
+        startActivity(QuarterActivity.intent(this, courses, currentQuarter, selectedCourseIndex))
+    }
+
+    fun showLogin() = with(context) {
+        startActivity(LoginActivity.intent(this))
     }
 }

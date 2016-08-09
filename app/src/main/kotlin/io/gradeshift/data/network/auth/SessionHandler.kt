@@ -2,6 +2,7 @@ package io.gradeshift.data.network.auth
 
 import com.fernandocejas.frodo.annotation.RxLogObservable
 import io.gradeshift.data.network.api.LoginApi
+import io.gradeshift.data.network.google.SmartLock
 import org.threeten.bp.Instant
 import rx.Observable
 import rx.annotations.Experimental
@@ -18,7 +19,7 @@ class SessionHandler(
         fun isExpired(token: Token): Boolean = Instant.now().isAfter(token.expiry)
 
         return sessionStore.getToken()
-                .flatMap { token -> if (isExpired(token)) getRenewedToken() else Observable.just(token) }
+                .filter { !isExpired(it) }
                 .switchIfEmpty(getRenewedToken())
     }
 

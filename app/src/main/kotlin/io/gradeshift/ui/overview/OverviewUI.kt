@@ -3,6 +3,7 @@ package io.gradeshift.ui.overview
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
+import com.google.android.gms.common.api.Status
 import com.jakewharton.rxbinding.support.v4.widget.refreshes
 import com.jakewharton.rxrelay.PublishRelay
 import io.gradeshift.R
@@ -19,7 +20,7 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class OverviewUI @Inject constructor(
-        private val adapterProvider: Provider<OverviewAdapter>,
+        private val adapterProvider: Provider<OverviewAdapter>, // TODO dont inject this
         private val navigator: Navigator
 ) : AnkoComponent<OverviewActivity>, OverviewPresenter.View, ItemPressListener {
     private lateinit var overviewAdapter: OverviewAdapter
@@ -33,7 +34,16 @@ class OverviewUI @Inject constructor(
     override val showCourses = ui<List<Course>> { overviewAdapter.courses = it }
     override val loading = ui<Boolean> { refreshView.isRefreshing = it }
 
+    lateinit private var activity: OverviewActivity
+    override fun resolve(status: Status) {
+        activity.startResolution(status)
+    }
+    override fun showLogin() {
+        navigator.showLogin()
+    }
+
     override fun createView(ui: AnkoContext<OverviewActivity>) = with(ui) {
+        activity = owner
         overviewAdapter = adapterProvider.get()
 
         swipeRefreshLayout {

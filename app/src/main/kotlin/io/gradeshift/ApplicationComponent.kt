@@ -4,6 +4,8 @@ import dagger.Component
 import io.gradeshift.data.network.auth.UserComponent
 import io.gradeshift.data.network.auth.UserModule
 import io.gradeshift.data.network.provider.focus.FocusModule
+import io.gradeshift.ui.login.LoginComponent
+import io.gradeshift.ui.login.LoginModule
 import io.gradeshift.ui.main.MainComponent
 import io.gradeshift.ui.main.MainModule
 import javax.inject.Singleton
@@ -17,4 +19,5 @@ interface ApplicationComponent {
 
     fun plus(userModule: UserModule): UserComponent
     fun plus(mainModule: MainModule): MainComponent
+    fun plus(loginModule: LoginModule): LoginComponent
 }

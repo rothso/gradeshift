@@ -1,4 +1,4 @@
-package io.gradeshift.data.network.auth
+package io.gradeshift.data.network.google
 
 import com.fernandocejas.frodo.annotation.RxLogObservable
 import com.github.ajalt.timberkt.d
@@ -29,7 +29,7 @@ class SmartLock(
                 }
                 RESOLUTION_REQUIRED -> {
                     d { "Multiple saved credentials, manual resolution required" }
-                    throw ResolutionRequiredException()
+                    throw ResolutionRequiredException(result.status)
                 }
                 SIGN_IN_REQUIRED -> {
                     d { "No saved credentials, sign-in required" }
@@ -41,6 +41,27 @@ class SmartLock(
                 }
             }
         }
+    }
+
+    @RxLogObservable
+    fun saveCredentials(uniqueId: String, name: String, password: String): Observable<Boolean> {
+        throw UnsupportedOperationException()
+//        val credential = Credential.Builder(uniqueId)
+//                .setAccountType(identity)
+//                .setName(name)
+//                .setPassword(password)
+//                .build()
+//
+//        val save = Auth.CredentialsApi.save(gac, credential)
+//        return PendingResultObservable.from(save).map { result ->
+//            when (result.status.statusCode) {
+//                SUCCESS or SUCCESS_CACHE -> true
+//                else -> {
+//                    e { "Status code ${result.status.statusCode}"}
+//                    false
+//                }
+//            }
+//        }
     }
 
     private fun buildCredentialRequest(): CredentialRequest {

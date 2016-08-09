@@ -35,6 +35,8 @@
         </activity>
         <activity android:name=".ui.resolver.ResolverActivity">
         </activity>
+        <activity android:name=".ui.login.LoginActivity">
+        </activity>
     </application>
 
 </manifest>

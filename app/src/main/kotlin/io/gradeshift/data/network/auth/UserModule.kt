@@ -1,23 +1,17 @@
 package io.gradeshift.data.network.auth
 
 import android.content.SharedPreferences
-import com.google.android.gms.common.api.GoogleApiClient
 import dagger.Module
 import dagger.Provides
 import io.gradeshift.data.network.api.LoginApi
+import io.gradeshift.data.network.google.SmartLock
 import okhttp3.OkHttpClient
-import javax.inject.Named
 
 @Module
 class UserModule(private val user: User) {
 
     @Provides @UserScope
     fun provideUser(): User = user
-
-    @Provides @UserScope
-    fun provideSmartLock(googleApiClient: GoogleApiClient, @Named("Identity") identity: String): SmartLock {
-        return SmartLock(googleApiClient, identity)
-    }
 
     @Provides @UserScope
     fun provideSessionStore(@Authenticated sharedPreferences: SharedPreferences): SessionStore {

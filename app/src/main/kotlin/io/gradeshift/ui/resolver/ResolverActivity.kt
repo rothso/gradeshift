@@ -60,6 +60,8 @@ class ResolverActivity : AppCompatActivity() {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent) {
+        super.onActivityResult(requestCode, resultCode, data)
+
         if (requestCode == REQUEST_RESOLVE_ERROR) {
             isResolving = false
             if (resultCode == Activity.RESULT_OK) {
