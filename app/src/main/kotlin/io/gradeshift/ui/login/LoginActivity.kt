@@ -4,24 +4,19 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.Button
-import android.widget.EditText
-import com.github.ajalt.timberkt.d
-import com.github.ajalt.timberkt.e
+import com.google.android.gms.common.api.Status
 import com.jakewharton.rxbinding.view.clicks
-import dagger.Module
-import dagger.Provides
-import dagger.Subcomponent
+import com.jakewharton.rxbinding.view.enabled
+import com.jakewharton.rxbinding.widget.textChanges
+import com.jakewharton.rxrelay.PublishRelay
+import com.jakewharton.rxrelay.SerializedRelay
 import io.gradeshift.GradesApplication
-import io.gradeshift.data.network.google.SmartLock
-import io.gradeshift.ui.common.ActivityScope
-import io.gradeshift.ui.common.base.Presenter
-import org.jetbrains.anko.*
+import io.gradeshift.ui.common.ext.snackBar
+import io.gradeshift.ui.common.ext.ui
+import org.jetbrains.anko.intentFor
+import org.jetbrains.anko.setContentView
 import rx.Observable
 import rx.Subscription
-import rx.lang.kotlin.plusAssign
-import rx.lang.kotlin.subscribeWith
-import rx.subscriptions.CompositeSubscription
 import javax.inject.Inject
 
 class LoginActivity : AppCompatActivity(), LoginPresenter.View {
@@ -29,91 +24,45 @@ class LoginActivity : AppCompatActivity(), LoginPresenter.View {
     @Inject lateinit var presenter: LoginPresenter
     lateinit var subscription: Subscription
 
+    override val username: Observable<String> by lazy { ui.usernameField.textChanges().map { it.toString() } }
+    override val password: Observable<String> by lazy { ui.passwordField.textChanges().map { it.toString() } }
+    override val loginClicks: Observable<Unit> by lazy { ui.loginButton.clicks() }
+
+    private val _resolutionResult: SerializedRelay<Boolean, Boolean> = PublishRelay.create<Boolean>().toSerialized()
+    override val resolutionResult: Observable<Boolean> = _resolutionResult.asObservable()
+
+    override val loginButtonEnabled by lazy { ui(ui.loginButton.enabled()) }
+    override val loginSuccessful by lazy { ui<Boolean> { snackBar("Login attempt ${if (it) "succeeded" else "failed"}") } }
+
+    override val showLogin = ui<Unit> { throw IllegalStateException("Already showing login") }
+    override val resolveStatus = ui<Status> { status -> status.startResolutionForResult(this, RC_SAVE) }
+
     companion object {
+        private val RC_SAVE = 2
+
         fun intent(ctx: Context): Intent {
             return ctx.intentFor<LoginActivity>()
         }
     }
 
-    override val submits: Observable<Pair<String, String>> by lazy {
-        // TODO validation
-        ui.loginButton.clicks().map {
-            Pair(ui.usernameField.text.toString(), ui.passwordField.text.toString())
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         GradesApplication.graph.plus(LoginModule()).inject(this)
 
         ui.setContentView(this)
         subscription = presenter.bind(this)
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        when (requestCode) {
+            RC_SAVE -> _resolutionResult.call(resultCode == RESULT_OK)
+        }
+    }
+
     override fun onDestroy() {
         subscription.unsubscribe()
         super.onDestroy()
-    }
-}
-
-@ActivityScope
-@Subcomponent(modules = arrayOf(LoginModule::class))
-interface LoginComponent {
-    fun inject(loginActivity: LoginActivity)
-}
-
-@Module
-class LoginModule {
-
-    @Provides @ActivityScope
-    fun provideUI(): LoginUI = LoginUI()
-
-    @Provides @ActivityScope
-    fun providePresenter(smartLock: SmartLock): LoginPresenter = LoginPresenter(smartLock)
-}
-
-class LoginPresenter(private val smartLock: SmartLock) : Presenter<LoginPresenter.View>() {
-
-    override fun bind(view: View): Subscription {
-        val subscription = CompositeSubscription()
-
-        subscription += view.submits
-                .doOnNext { d { "Submitting credentials for ${it.first}" } }
-                .flatMap { smartLock.saveCredentials(it.first, "Name", it.second) }
-                .subscribeWith {
-                    onNext { success -> d { "Login attempt ${if (success) "succeeded" else "failed"}" } }
-                    onError { e(it) { "Catastrophe while logging in" } }
-                }
-
-        return subscription
-    }
-
-    interface View {
-        val submits: Observable<Pair<String, String>>
-    }
-}
-
-class LoginUI : AnkoComponent<LoginActivity> {
-
-    lateinit var loginButton: Button
-    lateinit var usernameField: EditText
-    lateinit var passwordField: EditText
-
-    override fun createView(ui: AnkoContext<LoginActivity>) = with(ui) {
-        verticalLayout {
-            padding = dip(30)
-            usernameField = editText {
-                hint = "Name"
-                textSize = 24f
-            }
-            passwordField = editText {
-                hint = "Password"
-                textSize = 24f
-            }
-            loginButton = button("Login") {
-                textSize = 26f
-            }
-        }
     }
 }

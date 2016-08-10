@@ -5,6 +5,7 @@ import com.google.android.gms.common.api.Result
 import rx.Observable
 import rx.Observer
 import rx.observables.SyncOnSubscribe
+import rx.schedulers.Schedulers
 
 class PendingResultObservable private constructor() {
 
@@ -16,6 +17,7 @@ class PendingResultObservable private constructor() {
             }
             val unsubscribe = { pendingResult.cancel() }
             return Observable.create(SyncOnSubscribe.createStateless(next, unsubscribe))
+                    .subscribeOn(Schedulers.io())
         }
     }
 }

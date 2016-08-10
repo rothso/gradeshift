@@ -2,6 +2,7 @@ package io.gradeshift.data.network.google
 
 import com.fernandocejas.frodo.annotation.RxLogObservable
 import com.github.ajalt.timberkt.d
+import com.github.ajalt.timberkt.e
 import com.github.ajalt.timberkt.w
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.auth.api.credentials.Credential
@@ -45,28 +46,26 @@ class SmartLock(
 
     @RxLogObservable
     fun saveCredentials(uniqueId: String, name: String, password: String): Observable<Boolean> {
-        throw UnsupportedOperationException()
-//        val credential = Credential.Builder(uniqueId)
-//                .setAccountType(identity)
-//                .setName(name)
-//                .setPassword(password)
-//                .build()
-//
-//        val save = Auth.CredentialsApi.save(gac, credential)
-//        return PendingResultObservable.from(save).map { result ->
-//            when (result.status.statusCode) {
-//                SUCCESS or SUCCESS_CACHE -> true
-//                else -> {
-//                    e { "Status code ${result.status.statusCode}"}
-//                    false
-//                }
-//            }
-//        }
+        val credential = Credential.Builder(uniqueId)
+                .setName(name)
+                .setPassword(password)
+                .build()
+
+        val save = Auth.CredentialsApi.save(gac, credential)
+        return PendingResultObservable.from(save).map { result ->
+            when (result.status.statusCode) {
+                SUCCESS -> true
+                RESOLUTION_REQUIRED -> throw ResolutionRequiredException(result.status)
+                else -> {
+                    e { "Status code ${result.status.statusCode}"}
+                    false
+                }
+            }
+        }
     }
 
     private fun buildCredentialRequest(): CredentialRequest {
         return CredentialRequest.Builder()
-                .setAccountTypes(identity)
                 .setPasswordLoginSupported(true)
                 .build()
     }

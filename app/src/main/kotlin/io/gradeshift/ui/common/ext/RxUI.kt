@@ -3,6 +3,7 @@ package io.gradeshift.ui.common.ext
 import rx.Observable
 import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
+import rx.functions.Action1
 import rx.lang.kotlin.subscribeWith
 import timber.log.Timber
 
@@ -33,6 +34,10 @@ import timber.log.Timber
 fun <T> Observable<T>.bind(uiFunc: (Observable<T>) -> Subscription): Subscription {
     return uiFunc.invoke(this)
 }
+
+/* Maintain compatibility with Action1<*>s provided by RxBinding */
+fun <T> ui(onNext: Action1<in T>): (Observable<T>) -> Subscription =
+        ui { it -> onNext.call(it) }
 
 fun <T> ui(onNext: (T) -> Unit): (Observable<T>) -> Subscription = {
     it.observeOn(AndroidSchedulers.mainThread()).subscribeWith {

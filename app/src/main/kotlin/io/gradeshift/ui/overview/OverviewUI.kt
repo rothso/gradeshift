@@ -35,12 +35,8 @@ class OverviewUI @Inject constructor(
     override val loading = ui<Boolean> { refreshView.isRefreshing = it }
 
     lateinit private var activity: OverviewActivity
-    override fun resolve(status: Status) {
-        activity.startResolution(status)
-    }
-    override fun showLogin() {
-        navigator.showLogin()
-    }
+    override val showLogin = ui<Unit>{ navigator.showLogin() }
+    override val resolveStatus = ui<Status> { activity.startResolution(it) }
 
     override fun createView(ui: AnkoContext<OverviewActivity>) = with(ui) {
         activity = owner
