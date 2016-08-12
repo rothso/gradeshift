@@ -8,6 +8,7 @@ import io.gradeshift.data.network.api.GradesApi
 import io.gradeshift.data.network.auth.Authenticated
 import io.gradeshift.data.network.auth.User
 import io.gradeshift.data.network.auth.UserScope
+import io.gradeshift.domain.repository.GradeRepository
 import javax.inject.Named
 
 @Module

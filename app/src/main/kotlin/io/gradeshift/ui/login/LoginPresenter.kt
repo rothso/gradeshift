@@ -1,8 +1,8 @@
 package io.gradeshift.ui.login
 
 import com.github.ajalt.timberkt.d
-import io.gradeshift.data.network.google.GacResolution
-import io.gradeshift.data.network.google.SmartLock
+import io.gradeshift.domain.LoginInteractor
+import io.gradeshift.domain.model.Credentials
 import io.gradeshift.ui.common.base.Presenter
 import io.gradeshift.ui.common.ext.bind
 import rx.Observable
@@ -10,7 +10,7 @@ import rx.Subscription
 import rx.lang.kotlin.plusAssign
 import rx.subscriptions.CompositeSubscription
 
-class LoginPresenter(private val smartLock: SmartLock) : Presenter<LoginPresenter.View>() {
+class LoginPresenter(private val interactor: LoginInteractor) : Presenter<LoginPresenter.View>() {
 
     override fun bind(view: View): Subscription {
         val subscription = CompositeSubscription()
@@ -18,30 +18,28 @@ class LoginPresenter(private val smartLock: SmartLock) : Presenter<LoginPresente
         val username = view.username.share()
         val password = view.password.share()
 
-        val credentials = Observable.combineLatest(username, password, { u, p -> Pair(u, p) }).share()
+        val credentials = Observable.combineLatest(
+                username, password, { u, p -> Credentials(u, p) }).share()
 
         subscription += credentials
-                .map { it.first.isNotBlank() && it.second.isNotBlank() }
+                .map { it.username.isNotBlank() && it.password.isNotBlank() }
                 .bind(view.loginButtonEnabled)
 
         subscription += view.loginClicks
                 .withLatestFrom(credentials, { click, credential -> credential })
-                .doOnNext { d { "Submitting credentials for ${it.first}" } }
-                .switchMap { smartLock.saveCredentials(it.first, "Name", it.second) }
-                .doOnNext { success -> d { "Login attempt ${if (success) "succeeded" else "failed"}" } }
-                .compose { GacResolution.resolve(it, view) }
+                .doOnNext { d { "Logging in ${it.username}" } }
+                .switchMap { credential -> interactor.attemptLogin(credential) }
+                .map { user -> user != null }
+                .doOnNext { success -> d { "Login ${if (success) "succeeded" else "failed"}" } }
                 .bind(view.loginSuccessful)
-
-        // TODO hit the server before blindly saving credentials
 
         return subscription
     }
 
-    interface View : GacResolution.Callback {
+    interface View {
         val username: Observable<String>
         val password: Observable<String>
         val loginClicks: Observable<Unit>
-        val resolutionResult: Observable<Boolean>
 
         val loginButtonEnabled: (Observable<Boolean>) -> Subscription
         val loginSuccessful: (Observable<Boolean>) -> Subscription

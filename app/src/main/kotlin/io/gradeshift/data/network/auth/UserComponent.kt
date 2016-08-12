@@ -17,5 +17,7 @@ import io.gradeshift.ui.quarter.QuarterModule
 interface UserComponent {
     fun plus(overviewModule: OverviewModule): OverviewComponent
     fun plus(quarterModule: QuarterModule): QuarterComponent
+
+    fun user(): User
 }
 

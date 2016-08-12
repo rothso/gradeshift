@@ -2,21 +2,22 @@ package io.gradeshift
 
 import android.app.Application
 import com.facebook.stetho.Stetho
-import com.google.android.gms.common.api.GoogleApiClient
+import com.github.ajalt.timberkt.d
 import com.jakewharton.threetenabp.AndroidThreeTen
 import com.squareup.leakcanary.LeakCanary
 import io.gradeshift.data.network.auth.User
 import io.gradeshift.data.network.auth.UserComponent
 import io.gradeshift.data.network.auth.UserModule
+import io.gradeshift.domain.service.Authenticator
+import io.gradeshift.ui.main.CheckLogin
+import rx.Observable
 import timber.log.Timber
-import javax.inject.Inject
 
-class GradesApplication : Application() {
-    @Inject lateinit var gac: GoogleApiClient
+class GradesApplication : Application(), CheckLogin, Authenticator.Callback {
 
     companion object {
         lateinit var graph: ApplicationComponent
-        lateinit var userGraph: UserComponent
+        lateinit var userGraph: UserComponent // TODO should be nullable
     }
 
     override fun onCreate() {
@@ -35,10 +36,24 @@ class GradesApplication : Application() {
         graph = DaggerApplicationComponent.builder()
                 .applicationModule(ApplicationModule(this))
                 .build()
-        graph.inject(this)
-
-        userGraph = graph.plus(UserModule(User.DUMMY_USER))
 
         Timber.d("Dagger graph initialized", graph)
+    }
+
+    override fun isLoggedIn(): Observable<Boolean> {
+        return Observable.fromCallable {
+            try {
+                userGraph.user()
+                d { "User logged in" }
+                true
+            } catch (e: UninitializedPropertyAccessException) {
+                d { "User not logged in" }
+                false
+            }
+        }
+    }
+
+    override fun userLoggedIn(user: User) {
+        userGraph = graph.plus(UserModule(user))
     }
 }

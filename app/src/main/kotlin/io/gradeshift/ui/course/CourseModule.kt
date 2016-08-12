@@ -2,10 +2,10 @@ package io.gradeshift.ui.course
 
 import dagger.Module
 import dagger.Provides
-import io.gradeshift.data.GradeRepository
 import io.gradeshift.domain.GetCourseGradesInteractor
 import io.gradeshift.domain.model.Course
 import io.gradeshift.domain.model.Quarter
+import io.gradeshift.domain.repository.GradeRepository
 import javax.inject.Provider
 
 @Module

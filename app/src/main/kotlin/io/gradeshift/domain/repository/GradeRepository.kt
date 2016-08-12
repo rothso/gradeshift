@@ -1,4 +1,4 @@
-package io.gradeshift.data
+package io.gradeshift.domain.repository
 import io.gradeshift.domain.model.Course
 import io.gradeshift.domain.model.Grade
 import io.gradeshift.domain.model.Quarter

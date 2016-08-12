@@ -4,9 +4,8 @@ import dagger.Module
 import dagger.Provides
 import io.gradeshift.data.network.api.LoginApi
 import io.gradeshift.data.network.auth.AuthInterceptor
-import io.gradeshift.data.network.auth.Token
+import io.gradeshift.data.network.provider.focus.converter.FocusLoginApi
 import okhttp3.HttpUrl
-import okhttp3.Request
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -29,17 +28,12 @@ class FocusModule {
     fun provideEndpoint(): HttpUrl = HttpUrl.parse(ENDPOINT)
 
     @Provides @Singleton
-    fun provideAuthenticator(): AuthInterceptor.Decorator {
-        return object : AuthInterceptor.Decorator {
-            override fun decorate(request: Request, token: Token) = throw UnsupportedOperationException()
-        }
+    fun provideAuthDecorator(): AuthInterceptor.Decorator {
+        return FocusAuthDecorator()
     }
 
     @Provides @Singleton
     fun provideLoginApi(): LoginApi {
-        return object : LoginApi {
-            override fun login(username: String, password: String) = throw UnsupportedOperationException()
-        }
+        return FocusLoginApi()
     }
-
 }

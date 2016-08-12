@@ -2,9 +2,9 @@ package io.gradeshift.ui.overview
 
 import dagger.Module
 import dagger.Provides
-import io.gradeshift.data.GradeRepository
 import io.gradeshift.domain.GetQuarterCoursesInteractor
 import io.gradeshift.domain.model.Quarter
+import io.gradeshift.domain.repository.GradeRepository
 import io.gradeshift.ui.common.ActivityScope
 import javax.inject.Provider
 
@@ -29,7 +29,7 @@ class OverviewModule(
         return OverviewUI(adapter, navigator)
     }
 
-    // TODO [0.x] pass a (maybe) quarter-scoped data store instead
+    // TODO [0.x] pass a (maybe) quarter-scoped data sStore instead
     @Provides @ActivityScope
     fun provideInteractor(repository: GradeRepository): GetQuarterCoursesInteractor {
         return GetQuarterCoursesInteractor(repository)

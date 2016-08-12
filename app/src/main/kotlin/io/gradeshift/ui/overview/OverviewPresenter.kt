@@ -1,7 +1,6 @@
 package io.gradeshift.ui.overview
 
 import com.github.ajalt.timberkt.d
-import io.gradeshift.data.network.google.GacResolution
 import io.gradeshift.domain.GetQuarterCoursesInteractor
 import io.gradeshift.domain.model.Course
 import io.gradeshift.domain.model.Quarter
@@ -25,7 +24,6 @@ class OverviewPresenter(private val interactor: GetQuarterCoursesInteractor) : P
 
         val courses: Observable<List<Course>> = refreshes
                 .switchMap { interactor.getCourses(Quarter.DUMMY_QUARTER) }
-                .compose { GacResolution.resolve(it, view) }
                 .share()
 
         // Loading and done loading
@@ -54,7 +52,7 @@ class OverviewPresenter(private val interactor: GetQuarterCoursesInteractor) : P
         return subscription
     }
 
-    interface View : GacResolution.Callback {
+    interface View {
         val itemClicks: Observable<Int>
         val refreshes: Observable<Unit>
 

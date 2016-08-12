@@ -5,6 +5,7 @@ import io.gradeshift.domain.model.Course
 import io.gradeshift.domain.model.Grade
 import io.gradeshift.domain.model.Quarter
 import io.gradeshift.domain.model.Year
+import io.gradeshift.domain.repository.GradeRepository
 import rx.Observable
 import rx.schedulers.Schedulers
 
@@ -19,5 +20,4 @@ class GradeRepositoryImpl(val gradesApi: GradesApi) : GradeRepository {
                 .map { it.map { it.copy(name = "[Course ${course.name}] ${it.name}") } }
                 .subscribeOn(Schedulers.io())
     }
-
 }

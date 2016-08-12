@@ -1,6 +1,5 @@
 package io.gradeshift.data.network.google
 
-import com.fernandocejas.frodo.annotation.RxLogObservable
 import com.github.ajalt.timberkt.d
 import com.github.ajalt.timberkt.e
 import com.github.ajalt.timberkt.w
@@ -19,7 +18,6 @@ class SmartLock(
         private val identity: String
 ) {
 
-    @RxLogObservable
     fun getCredentials(): Observable<Credential> {
         val request = Auth.CredentialsApi.request(gac, buildCredentialRequest())
         return PendingResultObservable.from(request).map { result ->
@@ -44,7 +42,6 @@ class SmartLock(
         }
     }
 
-    @RxLogObservable
     fun saveCredentials(uniqueId: String, name: String, password: String): Observable<Boolean> {
         val credential = Credential.Builder(uniqueId)
                 .setName(name)
