@@ -7,7 +7,9 @@ import io.gradeshift.data.network.api.GradesApi
 import io.gradeshift.data.network.auth.Authenticated
 import io.gradeshift.data.network.auth.UserScope
 import io.gradeshift.data.network.provider.focus.converter.CourseConverter
+import io.gradeshift.data.network.provider.focus.converter.GradeConverter
 import io.gradeshift.domain.model.Course
+import io.gradeshift.domain.model.Grade
 import okhttp3.HttpUrl
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
@@ -27,6 +29,7 @@ class FocusUserModule {
                 .addConverterFactory(JsoupConverterFactory.create(
                         Jsouper.Builder()
                                 .add(Course::class.java, CourseConverter())
+                                .add(Grade::class.java, GradeConverter())
                                 .build()
                 ))
                 .build()

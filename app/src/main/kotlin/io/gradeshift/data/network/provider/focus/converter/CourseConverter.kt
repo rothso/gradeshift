@@ -13,8 +13,8 @@ class CourseConverter : ElementAdapter<Course>() {
     override fun fromElement(element: Element): Course {
         try {
             val links = element.select("a")
-            val courseLink = links.get(0)
-            val gradeLink = links.get(1)
+            val courseLink = links[0]
+            val gradeLink = links[1]
 
             val id = courseLink.attr("href").split("course_period_id=")[1].toInt()
             val name = courseLink.text().split(" - ")[0]

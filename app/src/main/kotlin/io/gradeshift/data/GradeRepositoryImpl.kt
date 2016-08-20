@@ -7,7 +7,6 @@ import io.gradeshift.domain.model.Quarter
 import io.gradeshift.domain.model.Year
 import io.gradeshift.domain.repository.GradeRepository
 import rx.Observable
-import rx.schedulers.Schedulers
 
 class GradeRepositoryImpl(val gradesApi: GradesApi) : GradeRepository {
 
@@ -15,9 +14,7 @@ class GradeRepositoryImpl(val gradesApi: GradesApi) : GradeRepository {
         return gradesApi.getCourses(Year.DUMMY_YEAR, quarter)
     }
 
-    override fun getGradesByCourse(course: Course, inQuarter: Quarter): Observable<List<Grade>> {
-        return Observable.defer { Observable.just(Grade.DUMMY_GRADES) }
-                .map { it.map { it.copy(name = "[Course ${course.name}] ${it.name}") } }
-                .subscribeOn(Schedulers.io())
+    override fun getGradesByCourse(course: Course, quarter: Quarter): Observable<List<Grade>> {
+        return gradesApi.getGrades(Year.DUMMY_YEAR, quarter, course)
     }
 }

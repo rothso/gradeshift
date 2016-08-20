@@ -87,7 +87,7 @@ class CourseUI(
                 }
 
                 textView {
-                    lparams(width = dip(40)) {
+                    lparams(width = dip(80)) {
                         gravity = Gravity.CENTER_VERTICAL
                         marginStart = dip(8)
                     }

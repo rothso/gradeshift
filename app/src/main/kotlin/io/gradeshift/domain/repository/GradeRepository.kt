@@ -6,8 +6,9 @@ import rx.Observable
 
 interface GradeRepository {
 
+    // TODO add year
     fun getCoursesByQuarter(quarter: Quarter): Observable<List<Course>>
 
-    fun getGradesByCourse(course: Course, inQuarter: Quarter): Observable<List<Grade>>
+    fun getGradesByCourse(course: Course, quarter: Quarter): Observable<List<Grade>>
 
 }

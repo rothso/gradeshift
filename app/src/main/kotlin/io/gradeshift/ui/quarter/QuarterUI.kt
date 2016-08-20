@@ -52,18 +52,14 @@ class QuarterUI : AnkoComponent<QuarterActivity> {
                     scrollFlags = SCROLL_FLAG_SCROLL or SCROLL_FLAG_EXIT_UNTIL_COLLAPSED or SCROLL_FLAG_SNAP
                 }
 
-                collapsingToolbarLayout {
-                    tabLayout = tabLayout {
-                        tabMode = TabLayout.MODE_SCROLLABLE
-                        setTabTextColors(Color.WHITE.withAlpha(255/2), Color.WHITE)
-                        setSelectedTabIndicatorColor(colorAttr(R.attr.colorAccent))
-                        leftPadding = dip(60)
-                        clipToPadding = false
-                    }.ctlparams(width = matchParent, height = wrapContent) {
-                        gravity = Gravity.BOTTOM
-                    }
+                tabLayout = tabLayout {
+                    tabMode = TabLayout.MODE_SCROLLABLE
+                    setTabTextColors(Color.WHITE.withAlpha(255/2), Color.WHITE)
+                    setSelectedTabIndicatorColor(colorAttr(R.attr.colorAccent))
+                    leftPadding = dip(60)
+                    clipToPadding = false
                 }.lparams(width = matchParent, height = wrapContent) {
-                    scrollFlags = SCROLL_FLAG_SCROLL or SCROLL_FLAG_ENTER_ALWAYS
+                    gravity = Gravity.BOTTOM
                 }
 
             }.lparams(width = matchParent)

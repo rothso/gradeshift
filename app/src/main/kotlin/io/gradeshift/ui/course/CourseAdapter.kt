@@ -27,12 +27,11 @@ class CourseAdapter @Inject constructor(val listener: ItemPressListener) : Recyc
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val grade = grades[position]
-        val score = grade.score.toInt()
 
         holder.name.text = grade.name
-        holder.pointsEarned.text = grade.pointsEarned.toString()
+        holder.pointsEarned.text = grade.pointsEarned?.toString() ?: "NG"
         holder.pointsPossible.text = grade.pointsPossible.toString()
-        holder.score.text = score.toString() + "%"
+        holder.score.text = grade.score?.toString()?.plus("%") ?: "No grade"
     }
 
     override fun getItemCount(): Int {
