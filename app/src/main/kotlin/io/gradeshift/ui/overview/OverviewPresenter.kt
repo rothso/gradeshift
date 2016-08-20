@@ -4,6 +4,7 @@ import com.github.ajalt.timberkt.d
 import io.gradeshift.domain.GetQuarterCoursesInteractor
 import io.gradeshift.domain.model.Course
 import io.gradeshift.domain.model.Quarter
+import io.gradeshift.ui.common.ViewConsumer
 import io.gradeshift.ui.common.base.Presenter
 import io.gradeshift.ui.common.ext.bind
 import rx.Observable
@@ -56,9 +57,8 @@ class OverviewPresenter(private val interactor: GetQuarterCoursesInteractor) : P
         val itemClicks: Observable<Int>
         val refreshes: Observable<Unit>
 
-        // Replace with a type alias when those puppies come out
-        val showCourses: (Observable<List<Course>>) -> Subscription
-        val showCourseDetail: (Observable<Pair<Int, List<Course>>>) -> Subscription
-        val loading: (Observable<Boolean>) -> Subscription
+        val showCourses: ViewConsumer<List<Course>>
+        val showCourseDetail: ViewConsumer<Pair<Int, List<Course>>>
+        val loading: ViewConsumer<Boolean>
     }
 }

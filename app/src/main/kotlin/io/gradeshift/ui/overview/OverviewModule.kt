@@ -6,7 +6,6 @@ import io.gradeshift.domain.GetQuarterCoursesInteractor
 import io.gradeshift.domain.model.Quarter
 import io.gradeshift.domain.repository.GradeRepository
 import io.gradeshift.ui.common.ActivityScope
-import javax.inject.Provider
 
 @Module
 class OverviewModule(
@@ -20,13 +19,13 @@ class OverviewModule(
     }
 
     @Provides @ActivityScope
-    fun provideAdapter(listener: OverviewUI): OverviewAdapter {
-        return OverviewAdapter(listener)
+    fun provideAdapter(): OverviewAdapter {
+        return OverviewAdapter(context)
     }
 
     @Provides @ActivityScope
-    fun provideUI(adapter: Provider<OverviewAdapter>, navigator: Navigator): OverviewUI {
-        return OverviewUI(adapter, navigator)
+    fun provideUI(): OverviewUI {
+        return OverviewUI()
     }
 
     // TODO [0.x] pass a (maybe) quarter-scoped data sStore instead
