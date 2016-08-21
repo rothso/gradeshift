@@ -10,6 +10,7 @@ import io.gradeshift.ui.common.ext.bind
 import rx.Observable
 import rx.Subscription
 import rx.lang.kotlin.plusAssign
+import rx.lang.kotlin.subscribeWith
 import rx.subscriptions.CompositeSubscription
 import timber.log.Timber
 
@@ -49,6 +50,20 @@ class OverviewPresenter(private val interactor: GetQuarterCoursesInteractor) : P
                 .withLatestFrom(courses, { i, xs -> Pair(i, xs) })
                 .bind(view.showCourseDetail)
 
+        // Quarter dropdown menu
+        val quarters = Observable.just(Quarter.DUMMY_QUARTERS).share() // TODO
+
+        subscription += view.quarterSelections
+                .filter { x -> x > -1 }
+                .withLatestFrom(quarters, { i, xs -> xs[i] })
+                .subscribeWith {
+                    // TODO hotswap courses
+                    onNext { quarter -> d { "$quarter selected" } }
+                }
+
+        subscription += quarters
+                .bind(view.showQuarterOptions)
+
         // TODO handle network, etc. errors with onErrorReturn
         return subscription
     }
@@ -56,9 +71,11 @@ class OverviewPresenter(private val interactor: GetQuarterCoursesInteractor) : P
     interface View {
         val itemClicks: Observable<Int>
         val refreshes: Observable<Unit>
+        val quarterSelections: Observable<Int>
 
         val showCourses: ViewConsumer<List<Course>>
         val showCourseDetail: ViewConsumer<Pair<Int, List<Course>>>
+        val showQuarterOptions: ViewConsumer<List<Quarter>>
         val loading: ViewConsumer<Boolean>
     }
 }

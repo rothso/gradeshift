@@ -80,7 +80,7 @@ class OverviewAdapter @Inject constructor(val listener: ItemPressListener) : Rec
                         ellipsize = TextUtils.TruncateAt.END
                         textSize = 16f
                         textColor = Color.GRAY
-                        typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
+//                        typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
                     }.lparams {
                         gravity = Gravity.CENTER_VERTICAL
                         weight = 1.0f

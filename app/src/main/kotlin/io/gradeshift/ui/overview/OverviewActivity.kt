@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.jakewharton.rxbinding.support.v4.widget.refreshes
+import com.jakewharton.rxbinding.widget.itemSelections
 import com.jakewharton.rxrelay.PublishRelay
 import io.gradeshift.GradesApplication
 import io.gradeshift.domain.model.Course
@@ -27,11 +28,16 @@ class OverviewActivity : DrawerActivity(), OverviewPresenter.View, ItemPressList
     @Inject lateinit var adapter: OverviewAdapter
     lateinit var subscription: Subscription
 
+    // TODO extract into hotswappable ReportView
     override val itemClicks: PublishRelay<Int> = PublishRelay.create()
-    override val refreshes: Observable<Unit> by lazy { ui.refreshView.refreshes() }
     override val showCourseDetail: ViewConsumer<Pair<Int, List<Course>>> = ui { it.spread(navigator::showCourse) }
     override val showCourses: ViewConsumer<List<Course>> = ui { adapter.courses = it }
+
+    override val refreshes: Observable<Unit> by lazy { ui.refreshView.refreshes() }
     override val loading: ViewConsumer<Boolean> = ui { ui.refreshView.isRefreshing = it }
+
+    override val quarterSelections: Observable<Int> by lazy { ui.spinner.itemSelections() }
+    override val showQuarterOptions: ViewConsumer<List<Quarter>> = ui { ui.spinner.adapter = DropdownArrayAdapter<Quarter>(this, it) }
 
     companion object {
         private val EXTRA_CURRENT_QUARTER = "current_quarter"
