@@ -1,5 +1,6 @@
 package io.gradeshift.ui.overview
 
+import android.graphics.Color
 import android.graphics.Typeface
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
@@ -31,7 +32,8 @@ class OverviewAdapter @Inject constructor(val listener: ItemPressListener) : Rec
         val grade = courses[position]
 
         holder.name.text = grade.name
-        holder.score.text = grade.grade.toString() + "%"
+        holder.teacher.text = grade.teacher
+        holder.score.text = grade.grade.toString()
     }
 
     override fun getItemCount(): Int {
@@ -41,6 +43,7 @@ class OverviewAdapter @Inject constructor(val listener: ItemPressListener) : Rec
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val name = view.find<TextView>(OverviewItemUI.ID_COURSE_NAME)
         val score = view.find<TextView>(OverviewItemUI.ID_COURSE_GRADE)
+        val teacher = view.find<TextView>(OverviewItemUI.ID_COURSE_TEACHER)
     }
 
     private class OverviewItemUI : AnkoComponent<ViewGroup> {
@@ -48,34 +51,54 @@ class OverviewAdapter @Inject constructor(val listener: ItemPressListener) : Rec
         companion object {
             val ID_COURSE_NAME: Int = View.generateViewId()
             val ID_COURSE_GRADE: Int = View.generateViewId()
+            val ID_COURSE_TEACHER: Int = View.generateViewId()
         }
 
         override fun createView(ui: AnkoContext<ViewGroup>) = with(ui) {
             linearLayout {
-                lparams(width = matchParent, height = dip(48))
+                lparams(width = matchParent, height = wrapContent)
                 orientation = LinearLayout.HORIZONTAL
-                horizontalPadding = dip(16)
+                padding = dip(16)
 
-                textView {
-                    lparams {
+                linearLayout {
+                    orientation = LinearLayout.VERTICAL
+
+                    textView {
+                        id = ID_COURSE_NAME
+                        singleLine = true
+                        ellipsize = TextUtils.TruncateAt.END
+                        textSize = 16f
+                        textColor = Color.BLACK.withAlpha(216)
+                    }.lparams {
                         gravity = Gravity.CENTER_VERTICAL
                         weight = 1.0f
                     }
-                    id = ID_COURSE_NAME
-                    singleLine = true
-                    ellipsize = TextUtils.TruncateAt.END
-                    textSize = 16f
+
+                    textView {
+                        id = ID_COURSE_TEACHER
+                        singleLine = true
+                        ellipsize = TextUtils.TruncateAt.END
+                        textSize = 16f
+                        textColor = Color.GRAY
+                        typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
+                    }.lparams {
+                        gravity = Gravity.CENTER_VERTICAL
+                        weight = 1.0f
+                    }
+                }.lparams {
+                    gravity = Gravity.CENTER_VERTICAL
+                    weight = 1.0f
                 }
 
                 textView {
-                    lparams(width = dip(40)) {
+                    lparams(width = wrapContent) {
                         gravity = Gravity.CENTER_VERTICAL
                         marginStart = dip(8)
                     }
                     id = ID_COURSE_GRADE
-                    textSize = 16f
-                    typeface = Typeface.create(typeface, Typeface.BOLD)
                     gravity = Gravity.CENTER_HORIZONTAL
+                    textSize = 24f
+                    typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
                 }
             }
         }

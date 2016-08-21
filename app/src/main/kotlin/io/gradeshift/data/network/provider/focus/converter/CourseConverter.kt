@@ -18,7 +18,7 @@ class CourseConverter : ElementAdapter<Course>() {
 
             val id = courseLink.attr("href").split("course_period_id=")[1].toInt()
             val name = courseLink.text().split(" - ")[0]
-            val teacher = courseLink.text().split(" - ")[1]
+            val teacher = courseLink.text().split(" - ")[4]
             val grade = gradeLink.text().split("%")[0].toInt()
 
             return Course(id, name, teacher, grade)

@@ -1,8 +1,5 @@
 package io.gradeshift.ui.common.drawer
 
-import android.animation.ObjectAnimator
-import android.animation.StateListAnimator
-import android.os.Build
 import android.support.design.widget.AppBarLayout
 import android.support.v4.widget.DrawerLayout
 import android.support.v7.widget.Toolbar
@@ -27,12 +24,6 @@ class ContentUI : AnkoComponent<DrawerLayout> {
             fitsSystemWindows = true
 
             appBarLayout(R.style.AppTheme_AppBarOverlay) {
-                // StateListAnimator overrides elevation: http://stackoverflow.com/a/37992366/5623874
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    stateListAnimator = StateListAnimator()
-                    stateListAnimator.addState(IntArray(0), ObjectAnimator.ofFloat(this, "elevation", 0f))
-                }
-
                 toolbar = toolbar {
                     popupTheme = R.style.AppTheme_PopupOverlay
                 }.lparams(width = matchParent, height = dimenAttr(R.attr.actionBarSize)) {
