@@ -96,6 +96,8 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
     compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.4.1'
+    compile 'com.github.franmontiel:PersistentCookieJar:v1.0.0'
 
     // Jsouper
     compile 'com.ekchang.jsouper:jsouper:0.0.3-SNAPSHOT'

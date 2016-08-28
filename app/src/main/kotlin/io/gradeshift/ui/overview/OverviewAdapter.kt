@@ -69,6 +69,7 @@ class OverviewAdapter @Inject constructor(val listener: ItemPressListener) : Rec
                         ellipsize = TextUtils.TruncateAt.END
                         textSize = 16f
                         textColor = Color.BLACK.withAlpha(216)
+                        typeface = Typeface.create("sans-serif-medium", Typeface.NORMAL)
                     }.lparams {
                         gravity = Gravity.CENTER_VERTICAL
                         weight = 1.0f
@@ -79,8 +80,7 @@ class OverviewAdapter @Inject constructor(val listener: ItemPressListener) : Rec
                         singleLine = true
                         ellipsize = TextUtils.TruncateAt.END
                         textSize = 16f
-                        textColor = Color.GRAY
-//                        typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
+                        textColor = Color.LTGRAY
                     }.lparams {
                         gravity = Gravity.CENTER_VERTICAL
                         weight = 1.0f
@@ -98,6 +98,7 @@ class OverviewAdapter @Inject constructor(val listener: ItemPressListener) : Rec
                     id = ID_COURSE_GRADE
                     gravity = Gravity.CENTER_HORIZONTAL
                     textSize = 24f
+                    textColor = Color.BLACK.withAlpha(216)
                     typeface = Typeface.create("sans-serif-light", Typeface.NORMAL)
                 }
             }

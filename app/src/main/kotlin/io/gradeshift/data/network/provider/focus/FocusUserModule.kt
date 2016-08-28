@@ -37,6 +37,6 @@ class FocusUserModule {
 
     @Provides @UserScope
     fun provideGradeApi(@Authenticated retrofit: Retrofit): GradesApi {
-        return FocusGradesApi(retrofit.create(FocusGradesApi.HelperApi::class.java))
+        return FocusGradesApi(retrofit)
     }
 }

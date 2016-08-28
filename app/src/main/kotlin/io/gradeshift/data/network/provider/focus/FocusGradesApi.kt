@@ -5,6 +5,7 @@ import io.gradeshift.domain.model.Course
 import io.gradeshift.domain.model.Grade
 import io.gradeshift.domain.model.Quarter
 import io.gradeshift.domain.model.Year
+import retrofit2.Retrofit
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
@@ -12,9 +13,10 @@ import retrofit2.http.Query
 import rx.Observable
 import rx.schedulers.Schedulers
 
-class FocusGradesApi(val api: HelperApi) : GradesApi {
+class FocusGradesApi(retrofit: Retrofit) : GradesApi {
+    private val api: Api = retrofit.create(Api::class.java)
 
-    interface HelperApi {
+    private interface Api {
         companion object {
             private const val YEAR: String = "side_syear"
             private const val QUARTER: String = "side_mp"

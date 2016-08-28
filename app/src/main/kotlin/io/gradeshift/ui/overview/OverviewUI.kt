@@ -21,7 +21,6 @@ class OverviewUI @Inject constructor() : AnkoComponent<OverviewActivity> {
 
     override fun createView(ui: AnkoContext<OverviewActivity>) = with(ui) {
         refreshView = swipeRefreshLayout {
-
             linearLayout {
                 lparams(width = matchParent, height = matchParent)
                 orientation = LinearLayout.VERTICAL
